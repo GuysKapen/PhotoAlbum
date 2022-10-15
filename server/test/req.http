@@ -1,0 +1,91 @@
+# Test server
+GET http://localhost:3000 HTTP/1.1
+
+###
+
+POST url HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Love",
+    "email": "email@gmail.com"
+}  
+
+###
+
+# Test contacts list
+GET http://localhost:3000/api/contacts HTTP/1.1
+
+###
+
+# Test contacts create
+POST  http://localhost:3000/api/contacts HTTP/1.1
+
+###
+
+# Test contacts delete all
+DELETE  http://localhost:3000/api/contacts HTTP/1.1
+
+###
+
+# Test contacts favorite
+GET http://localhost:3000/api/contacts/favorite HTTP/1.1
+
+###
+
+# Test contacts read
+GET http://localhost:3000/api/contacts/1 HTTP/1.1 
+
+###
+
+# Test contacts update
+PUT http://localhost:3000/api/contacts/1 HTTP/1.1 
+
+###
+
+# Test contacts delete
+DELETE http://localhost:3000/api/contacts/3 HTTP/1.1
+
+###
+
+# Test contacts not found 404
+GET http://localhost:3000/api/unknown HTTP/1.1
+
+
+###
+# Test create contact with json
+POST http://localhost:3000/api/contacts HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Long Tran",
+    "email": "longtran@gmail.com",
+    "address": "Vinh Long",
+    "phone": "09832738518"
+} 
+
+### 
+# Test contacts update
+PUT http://localhost:3000/api/contacts/1 HTTP/1.1 
+Content-Type: application/json
+
+{
+    "name": "Nguyen Long Tran",
+    "email": "longtran@gmail.com",
+    "address": "Vinh Long",
+    "phone": "0987665432"
+} 
+
+
+###
+# Test create contact with json
+POST http://localhost:3000/api/contacts HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Mguyen Van A",
+    "email": "nva@gmail.com",
+    "address": "Can Tho",
+    "phone": "98459389323",
+    "favorite": true
+} 
