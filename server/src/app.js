@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express()
 
 const photobookController = require('./controllers/photobook.controller')
+const uploadController = require('./controllers/upload.controller')
 const ApiError = require('./api_error')
 
 app.use(cors())
@@ -25,6 +26,9 @@ app.route('/api/photobooks/:id')
     .get(photobookController.read)
     .put(photobookController.update)
     .delete(photobookController.delete)
+
+app.route('/api/uploads/image')
+    .post(uploadController.uploadImage)
 
 app.use((req, res, next) => {
     return next(new ApiError(404, 'Resource not found'))
