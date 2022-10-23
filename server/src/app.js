@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload')
 
 const app = express()
 
@@ -9,9 +11,18 @@ const authController = require('./controllers/auth.controller')
 const uploadController = require('./controllers/upload.controller')
 const ApiError = require('./api_error')
 
-app.use(cors())
+app.use(fileUpload({
+    createParentPath: true,
+    limits: {
+        fileSize: 20 * 1024 * 1024 * 1024 //20MB max file(s) size
+    },
+}))
 app.use(express.json())
-app.use(morgan("dev"))
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(morgan('dev'));
+app.use(cors())
+app.use('/uploads', express.static('uploads'))
 
 app.get('/', (req, res) => {
     res.json({ 'message': 'Welcome' })
@@ -23,8 +34,8 @@ app.route('/api/authenticate')
 app.route('/api/register')
     .post(authController.registerController)
 
-app.route('/api/photobooks')
-    .get(photobookController.list)
+app.route('/api/users/:userId/photobooks')
+    .get(photobookController.findOfUser)
     .post(photobookController.create)
     .delete(photobookController.deleteAll)
 
@@ -36,7 +47,7 @@ app.route('/api/photobooks/:id')
     .put(photobookController.update)
     .delete(photobookController.delete)
 
-app.route('/api/uploads/image')
+app.route('/api/users/:userId/uploads/image')
     .post(uploadController.uploadImage)
 
 app.use((req, res, next) => {

@@ -1,4 +1,4 @@
-const ContactService = require('../services/photobook.service')
+const PhotobookService = require('../services/photobook.service')
 const ApiError = require('../api_error')
 
 exports.create = async (req, res, next) => {
@@ -7,9 +7,9 @@ exports.create = async (req, res, next) => {
     }
 
     try {
-        const contactService = new ContactService()
-        const contact = await contactService.create(req.body)
-        return res.send(contact)
+        const photobookService = new PhotobookService()
+        const photobook = await photobookService.create(req.body)
+        return res.send(photobook)
     } catch (error) {
         console.log(error);
         return next(new ApiError(500, 'Error occurred in create contact'))
@@ -20,7 +20,7 @@ exports.list = async (req, res, next) => {
     let contacts = []
 
     try {
-        const contactService = new ContactService();
+        const contactService = new PhotobookService();
         const { name } = req.query;
         if (name) {
             contacts = await contactService.findByName(name);
@@ -37,7 +37,7 @@ exports.list = async (req, res, next) => {
 
 exports.read = async (req, res, next) => {
     try {
-        const contactService = new ContactService();
+        const contactService = new PhotobookService();
         const contact = await contactService.findById(req.params.id);
 
         if (!contact) {
@@ -57,7 +57,7 @@ exports.update = async (req, res, next) => {
             return next(new ApiError(400, 'Data update connot be empty'))
         }
 
-        const contactService = new ContactService();
+        const contactService = new PhotobookService();
         const updated = await contactService.update(req.params.id, req.body);
 
         if (!updated) {
@@ -73,7 +73,7 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
     try {
-        const contactService = new ContactService();
+        const contactService = new PhotobookService();
         const deleted = await contactService.delete(req.params.id);
 
         if (!deleted) {
@@ -87,7 +87,7 @@ exports.delete = async (req, res, next) => {
 
 exports.deleteAll = async (req, res, next) => {
     try {
-        const contactService = new ContactService();
+        const contactService = new PhotobookService();
         const deleted = await contactService.deleteAll();
 
         return res.send({message: `${deleted} contacts were deleted successfully`})
@@ -101,7 +101,7 @@ exports.findAllFavorite = async (req, res, next) => {
     let contacts = []
 
     try {
-        const contactService = new ContactService();
+        const contactService = new PhotobookService();
         contacts = await contactService.findAllFavorite();
     } catch (error) {
         console.log(error);
@@ -109,4 +109,33 @@ exports.findAllFavorite = async (req, res, next) => {
     }
 
     return res.send(contacts)
+}
+
+// For specific user
+exports.findOfUser = async (req, res, next) => {
+    let photobooks = []
+
+    try {
+        const contactService = new PhotobookService();
+        photobooks = await contactService.findOfUser(req.params.userId);
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(500, 'Error occurred in retrieving favorite contacts contacts'))
+    }
+
+    return res.send(photobooks)
+}
+
+exports.addToUser = async (req, res, next) => {
+    let photobooks = []
+
+    try {
+        const contactService = new PhotobookService();
+        photobooks = await contactService.findOfUser(req.params.userId);
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(500, 'Error occurred in retrieving favorite contacts contacts'))
+    }
+
+    return res.send(photobooks)
 }

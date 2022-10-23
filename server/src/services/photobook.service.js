@@ -56,5 +56,11 @@ class ContactService {
     async deleteAll() {
         return await this.photobooks.del();
     }
+
+    async findOfUser(userId) {
+        return await this.photobooks
+            .where('owner', userId)
+            .select('*')
+    }
 }
 module.exports = ContactService;
