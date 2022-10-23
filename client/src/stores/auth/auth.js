@@ -17,7 +17,7 @@ export const useAuthStore = defineStore({
             console.log(email, password);
             try {
                 // Sign in here
-                const res = await axios.post("http://localhost:9000/authenticate", { email: email, password: password })
+                const res = await axios.post("/api/authenticate", { email: email, password: password })
                 this.user = res.data["user"]
                 this.token = res.data["token"]
 
@@ -28,18 +28,12 @@ export const useAuthStore = defineStore({
             }
         },
 
-        // Confirm email address
-        async confirmSignUp(_, { username, code }) {
+        async signup({ name, password, email }) {
             try {
-                return Promise.resolve()
-            } catch (error) {
-                return Promise.reject(error)
-            }
-        },
+                const res = await axios.post("/api/register", { name: name, email: email, password: password })
+                this.user = res.data["user"]
 
-        async signup(_, { username, password, email }) {
-            try {
-
+                await this.login({ email, password });
                 return Promise.resolve()
             } catch (error) {
                 console.log(error);

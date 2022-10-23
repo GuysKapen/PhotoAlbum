@@ -1,18 +1,27 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 
 const app = express()
 
 const photobookController = require('./controllers/photobook.controller')
+const authController = require('./controllers/auth.controller')
 const uploadController = require('./controllers/upload.controller')
 const ApiError = require('./api_error')
 
 app.use(cors())
 app.use(express.json())
+app.use(morgan("dev"))
 
 app.get('/', (req, res) => {
     res.json({ 'message': 'Welcome' })
 });
+
+app.route('/api/authenticate')
+    .post(authController.authenticate)
+
+app.route('/api/register')
+    .post(authController.registerController)
 
 app.route('/api/photobooks')
     .get(photobookController.list)
