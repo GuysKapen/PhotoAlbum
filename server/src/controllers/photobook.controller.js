@@ -1,4 +1,5 @@
 const PhotobookService = require('../services/photobook.service')
+const PhotopageService = require('../services/photopage.service')
 const ApiError = require('../api_error')
 
 exports.create = async (req, res, next) => {
@@ -9,6 +10,15 @@ exports.create = async (req, res, next) => {
     try {
         const photobookService = new PhotobookService()
         const photobook = await photobookService.create(req.body)
+
+        if ("pages" in req.body && req.body["pages"]) {
+            for (let index = 0; index < req.body["pages"].length; index++) {
+                const page = req.body["pages"][index];
+                const photopageService = new PhotopageService()
+                photopageService.create({ photobook_id: photobook.id, ...page })
+            }
+        }
+
         return res.send(photobook)
     } catch (error) {
         console.log(error);
@@ -90,7 +100,7 @@ exports.deleteAll = async (req, res, next) => {
         const contactService = new PhotobookService();
         const deleted = await contactService.deleteAll();
 
-        return res.send({message: `${deleted} contacts were deleted successfully`})
+        return res.send({ message: `${deleted} contacts were deleted successfully` })
     } catch (error) {
         console.log(error);
         return next(new ApiError(500, 'An error occurred while delele all contacts'))
