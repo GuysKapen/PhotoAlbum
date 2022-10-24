@@ -1,7 +1,7 @@
 <template>
   <div class="px-12 flex flex-row-reverse">
     <div class="w-3/12 my-8">
-      <h3 class="text-2xl text-gray-700 font-bold mt-4">Add photobook</h3>
+      <h3 class="text-2xl text-gray-700 font-bold mt-4">Add Album</h3>
       <div class="flex flex-col m-auto mt-8">
         <div>
           <label class="block text-sm font-medium text-gray-700"> Name </label>
@@ -15,6 +15,26 @@
               border-gray-300
               rounded-md
             " placeholder="Name..." type="text" v-model="name" />
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <label class="block font-semibold text-sm mt-2 w-4/12" for="input1">Photobooks</label>
+            <div class="my-2">
+
+              <div class="relative flex w-full">
+                <select v-model="selectedPhotobookIds" id="select-photobooks" name="photobooks"
+                  placeholder="Select photobooks..." multiple autocomplete="off"
+                  class="block w-full rounded-sm cursor-pointer focus:outline-none">
+                  <option v-for="(model, idx) in photobooks" :key="idx" :value="model.id">
+                    {{ model.name }}</option>
+                </select>
+              </div>
+
+              <span class="text-xs italic">The photobooks to add to album</span>
+            </div>
+          </div>
+
         </div>
 
         <div class="mt-4">
@@ -61,20 +81,19 @@
             </div>
           </div>
         </div>
-        <button class="bg-indigo-600 py-3 rounded-md text-white font-black text-sm my-4" @click="createPhotobook()">
-          Create Photobook
+        <button class="bg-indigo-600 py-3 rounded-md text-white font-black text-sm my-4" @click="createAlbum()">
+          Create album
         </button>
       </div>
       <div class="text-red-500">{{ error }}</div>
     </div>
     <div class="my-8 flex-grow pr-12">
-      <h5 class="mt-4 text-2xl font-bold text-gray-700">All photobooks</h5>
+      <h5 class="mt-4 text-2xl font-bold text-gray-700">All albums</h5>
       <div class="grid grid-cols-3 gap-12 mt-8 w-12/12 mx-auto">
-        <router-link v-for="(photobook, idx) in photobooks" :key="idx"
-          :to="{ name: 'album-detail', params: { id: photobook.id } }">
+        <router-link v-for="(album, idx) in albums" :key="idx" :to="{ name: 'album-detail', params: { id: album.id } }">
           <div class="flex">
             <div class="flex-shrink-0">
-              <img :src="imgUrlFor(serverUrl, photobook.cover)" alt="book" class="rounded-md w-[8.5rem] h-[11rem]" />
+              <img :src="imgUrlFor(serverUrl, album.cover)" alt="book" class="rounded-md w-[8.5rem] h-[11rem]" />
             </div>
             <div class="ml-4">
               <div>
@@ -94,7 +113,7 @@
                   star
                 </span>
               </div>
-              <h3 class="text-gray-800 text-base">{{ photobook.name }}</h3>
+              <h3 class="text-gray-800 text-base">{{ album.name }}</h3>
               <p class="text-gray-400 text-sm mt-2 font-light">Karin Slugher</p>
               <div class="
                   rounded-full
@@ -118,13 +137,18 @@
 <script>
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth/auth";
+import { useAlbumStore } from "@/stores/albums"
 import { usePhotobookStore } from "@/stores/photobooks"
 import axios from "axios";
 import { imgUrlFor } from "@/utils/utils";
+import TomSelect from 'tom-select'
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default {
   async mounted() {
+    const albumStore = useAlbumStore();
+    albumStore.getAlbums();
+
     const photobookStore = usePhotobookStore();
     photobookStore.getPhotobooks();
   },
@@ -135,7 +159,17 @@ export default {
     cover: null,
     serverUrl,
     imgUrlFor,
+    selectedPhotobookIds: []
   }),
+  watch: {
+    photobooks() {
+      if (this.photobooks.length > 0) {
+        setTimeout(function () {
+          new TomSelect('#select-photobooks', {});
+        }, 0)
+      }
+    },
+  },
   methods: {
     onImageSelected(e) {
       const selectedFile = e.target.files[0];
@@ -152,8 +186,8 @@ export default {
         console.log("Wrong file type");
       }
     },
-    async createPhotobook() {
-      const photobookStore = usePhotobookStore();
+    async createAlbum() {
+      const albumStore = useAlbumStore();
 
       this.error = "";
       if (!this.name) {
@@ -181,11 +215,12 @@ export default {
         name: this.name,
         owner: this.user.id,
         cover: this.cover,
+        photobooks: this.selectedPhotobookIds
       };
 
       try {
         axios
-          .post(`/api/users/${this.user.id}/photobooks`, newModel, {
+          .post(`/api/users/${this.user.id}/albums`, newModel, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${this.token}`,
@@ -193,18 +228,19 @@ export default {
             },
           })
           .then((res) => {
-            photobookStore.addPhotobook(res.data);
+            albumStore.addAlbum(res.data);
             this.cover = null;
             this.name = null;
           });
       } catch (error) {
-        console.error("Create photobook", error);
+        console.error("Create album", error);
       }
     },
   },
   computed: {
     ...mapState(useAuthStore, ["user"]),
     ...mapState(useAuthStore, ["token"]),
+    ...mapState(useAlbumStore, ["albums"]),
     ...mapState(usePhotobookStore, ["photobooks"]),
   },
 };

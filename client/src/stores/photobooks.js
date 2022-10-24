@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import { useAuthStore } from "@/stores/auth/auth";
 
-export const useAlbumStore = defineStore({
+export const usePhotobookStore = defineStore({
     id: "photobook",
     state: () => ({
         photobooks: []

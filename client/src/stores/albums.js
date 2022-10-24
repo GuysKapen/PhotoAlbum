@@ -13,7 +13,7 @@ export const useAlbumStore = defineStore({
             const res = await axios.get(`/api/users/${this.user.id}/albums/${albumId}`, { params: { token: this.token } })
             return res.data
         },
-        async getAlbumsData() {
+        async getAlbums() {
             const authStore = useAuthStore()
             const res = await axios.get(`/api/users/${authStore.user.id}/albums`, { params: { token: authStore.token } })
             this.albums = res.data

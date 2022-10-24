@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload')
 const app = express()
 
 const photobookController = require('./controllers/photobook.controller')
+const albumController = require('./controllers/album.controller')
 const authController = require('./controllers/auth.controller')
 const uploadController = require('./controllers/upload.controller')
 const ApiError = require('./api_error')
@@ -46,6 +47,12 @@ app.route('/api/photobooks/:id')
     .get(photobookController.read)
     .put(photobookController.update)
     .delete(photobookController.delete)
+
+// Albums
+app.route('/api/users/:userId/albums')
+    .get(albumController.findOfUser)
+    .post(albumController.create)
+    .delete(albumController.deleteAll)
 
 app.route('/api/users/:userId/uploads/image')
     .post(uploadController.uploadImage)
