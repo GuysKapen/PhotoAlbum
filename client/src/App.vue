@@ -7,6 +7,7 @@
   </div>
 </template>
 <script>
+import "mosha-vue-toastify/dist/style.css";
 import Nav from "@/components/Nav.vue";
 import { mapActions } from "vuex";
 import { useAuthStore } from "@/stores/auth/auth";
