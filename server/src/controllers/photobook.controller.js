@@ -121,6 +121,22 @@ exports.findAllFavorite = async (req, res, next) => {
     return res.send(contacts)
 }
 
+exports.pages = async (req, res, next) => {
+    try {
+        const photopageService = new PhotopageService();
+        const pages = await photopageService.findOfBook(req.params.id);
+
+        if (!pages) {
+            return next(new ApiError(404, 'Contact not found'));
+        }
+
+        return res.send(pages);
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(500, 'Error occurred when read contact'))
+    }
+}
+
 // For specific user
 exports.findOfUser = async (req, res, next) => {
     let photobooks = []

@@ -51,6 +51,9 @@ app.route('/api/photobooks/:id')
     .put(photobookController.update)
     .delete(photobookController.delete)
 
+app.route('/api/photobooks/:id/pages')
+    .get(photobookController.pages)
+
 // Albums
 app.route('/api/users/:userId/albums')
     .get(albumController.findOfUser)

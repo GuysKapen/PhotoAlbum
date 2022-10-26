@@ -57,9 +57,9 @@ class PhotopageService {
         return await this.photobooks.del();
     }
 
-    async findOfUser(userId) {
+    async findOfBook(bookId) {
         return await this.photobooks
-            .where('owner', userId)
+            .where('photobook_id', bookId)
             .select('*')
     }
 }
