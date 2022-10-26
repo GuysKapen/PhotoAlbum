@@ -24,7 +24,8 @@ class ContactService {
     }
 
     async all() {
-        return await this.photobooks.select('*');
+        return await this.photobooks.join('users', 'users.id', 'photobooks.owner')
+            .select('photobooks.*', 'users.name as owner');
     }
 
     async findByName(name) {

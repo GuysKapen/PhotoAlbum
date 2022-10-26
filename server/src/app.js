@@ -40,6 +40,9 @@ app.route('/api/users/:userId/photobooks')
     .post(photobookController.create)
     .delete(photobookController.deleteAll)
 
+app.route('/api/photobooks')
+    .get(photobookController.list)
+
 app.route('/api/photobooks/favorite')
     .get(photobookController.findAllFavorite)
 
