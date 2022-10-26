@@ -21,16 +21,6 @@ const serverUrl = import.meta.env.VITE_SERVER_URL
       </div>
     </div>
     <div class="w-9/12 mx-auto mt-32">
-      <!-- <CarouselCard ref="carouselCardRef" :interval="7000" height="32rem" :autoplay="false" type="card" arrow="always">
-          <CarouselCardItem v-for="page in pages" :key="page">
-            <img :src="imgUrlFor(serverUrl, page.image)" alt="book" class="rounded-md w-full h-[32rem] object-cover" />
-          </CarouselCardItem>
-      </CarouselCard>
-      <CarouselCard :interval="3000" height="300px" :autoplay="false" arrow="always" direction="vertical">
-        <CarouselCardItem v-for="page in pages" :key="page">
-          <img :src="imgUrlFor(serverUrl, page.image)" alt="book" class="rounded-md w-full h-[24rem] object-cover" />
-        </CarouselCardItem>
-      </CarouselCard> -->
       <carousel :items-to-show="3" wrapAround="true">
         <slide v-for="page in pages" :key="page" style="padding: 1rem">
           <div class="w-full relative">
@@ -53,12 +43,11 @@ const serverUrl = import.meta.env.VITE_SERVER_URL
 <script>
 import axios from 'axios';
 import 'vue3-carousel/dist/carousel.css'
-import { CarouselCard, CarouselCardItem } from 'vue-carousel-card'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 
 export default {
   components: {
-    CarouselCard, CarouselCardItem, Carousel,
+    Carousel,
     Slide,
     Pagination,
     Navigation,
