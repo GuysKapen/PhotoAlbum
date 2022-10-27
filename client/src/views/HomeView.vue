@@ -33,7 +33,7 @@ export default {
   },
   data: () => ({ photobooks: [] }),
   async mounted() {
-    const res = await axios.get(`/api/photobooks`)
+    const res = await axios.get(`/api/public/photobooks`)
     this.photobooks = res.data
   }
 }

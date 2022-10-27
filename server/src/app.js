@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -11,6 +12,7 @@ const albumController = require('./controllers/album.controller')
 const authController = require('./controllers/auth.controller')
 const uploadController = require('./controllers/upload.controller')
 const ApiError = require('./api_error')
+const authMiddleware = require('./middleware/auth');
 
 app.use(fileUpload({
     createParentPath: true,
@@ -35,25 +37,6 @@ app.route('/api/authenticate')
 app.route('/api/register')
     .post(authController.registerController)
 
-app.route('/api/users/:userId/photobooks')
-    .get(photobookController.findOfUser)
-    .post(photobookController.create)
-    .delete(photobookController.deleteAll)
-
-app.route('/api/photobooks')
-    .get(photobookController.list)
-
-app.route('/api/photobooks/favorite')
-    .get(photobookController.findAllFavorite)
-
-app.route('/api/photobooks/:id')
-    .get(photobookController.read)
-    .put(photobookController.update)
-    .delete(photobookController.delete)
-
-app.route('/api/photobooks/:id/pages')
-    .get(photobookController.pages)
-
 // Albums
 app.route('/api/users/:userId/albums')
     .get(albumController.findOfUser)
@@ -62,6 +45,30 @@ app.route('/api/users/:userId/albums')
 
 app.route('/api/users/:userId/uploads/image')
     .post(uploadController.uploadImage)
+
+app.route('/api/public/photobooks')
+    .get(photobookController.list)
+
+const photobookRoutes = express.Router({ mergeParams: true });
+
+photobookRoutes.use(authMiddleware.verifyToken);
+
+photobookRoutes.route('/')
+    .get(photobookController.findOfUser)
+    .post(photobookController.create)
+
+photobookRoutes.route('/:id')
+    .get(photobookController.read)
+    .put(photobookController.update)
+    .delete(photobookController.delete);
+
+photobookRoutes.route('/favorite')
+    .get(photobookController.findAllFavorite)
+
+photobookRoutes.route('/:id/pages')
+    .get(photobookController.pages)
+
+app.use("/api/photobooks", photobookRoutes)
 
 app.use((req, res, next) => {
     return next(new ApiError(404, 'Resource not found'))

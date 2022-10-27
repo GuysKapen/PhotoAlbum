@@ -139,11 +139,12 @@ exports.pages = async (req, res, next) => {
 
 // For specific user
 exports.findOfUser = async (req, res, next) => {
+    const userId = req.params.userId || req.userId
     let photobooks = []
 
     try {
         const contactService = new PhotobookService();
-        photobooks = await contactService.findOfUser(req.params.userId);
+        photobooks = await contactService.findOfUser(userId);
     } catch (error) {
         console.log(error);
         return next(new ApiError(500, 'Error occurred in retrieving favorite contacts contacts'))

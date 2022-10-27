@@ -102,17 +102,8 @@ export default {
       }
 
       try {
-        axios
-          .post(`/api/users/${this.user.id}/photobooks`, photobook, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${this.token}`,
-              "x-access-token": this.token,
-            },
-          })
-          .then((res) => {
-            photobookStore.addPhotobook(res.data);
-          });
+        let res = await photobookService.create(photobook)
+        photobookStore.addPhotobook(res.data);
       }
       catch (error) {
         console.error("Create photobook", error);
