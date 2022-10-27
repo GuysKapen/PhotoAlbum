@@ -165,3 +165,4 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2022-10-25  4:39:22
+OCI runtime exec failed: exec failed: unable to start container process: exec: "mysqldum": executable file not found in $PATH: unknown
