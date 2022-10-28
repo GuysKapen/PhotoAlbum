@@ -28,8 +28,8 @@ class PhotobookService {
     async get(id) {
         return (await this.api.get(`${this.baseUrl}/${id}`)).data;
     }
-    async update(id, contact) {
-        return (await this.api.put(`${this.baseUrl}/${id}`, contact)).data;
+    async update(id, model) {
+        return (await this.api.put(`${this.baseUrl}/${id}`, model)).data;
     }
     async delete(id) {
         return (await this.api.delete(`${this.baseUrl}/${id}`)).data;

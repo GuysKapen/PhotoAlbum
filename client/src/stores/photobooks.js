@@ -15,6 +15,10 @@ export const usePhotobookStore = defineStore({
             this.photobooks = books
             return books
         },
+        async getPages(id) {
+            const pages = await photobookService.getPages(id)
+            return pages
+        },
         addPhotobook(photobook) {
             this.photobooks = [...this.photobooks, photobook]
         },

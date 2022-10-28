@@ -18,9 +18,11 @@
                 <h3 class="text-gray-800 text-base">{{ photobook.name }}</h3>
                 <p class="text-gray-400 text-sm font-light">Pages: 3</p>
                 <div class="mt-4 flex items-center justify-between">
-                  <span class="material-symbols-outlined text-sm text-gray-500 hover:text-indigo-500">
-                    edit
-                  </span>
+                  <router-link :to="{name: 'photobook-edit', params: {id: photobook.id}}">
+                    <span class="material-symbols-outlined text-sm text-gray-500 hover:text-indigo-500">
+                      edit
+                    </span>
+                  </router-link>
                   <span @click="deletePhotobook(photobook.id)"
                     class="material-symbols-outlined text-sm cursor-pointer text-gray-500 hover:text-indigo-500">
                     delete
@@ -112,7 +114,7 @@ export default {
     async deletePhotobook(id) {
       if (!confirm("Are you sure delete this photobook?"))
         return;
-      
+
       const photobookStore = usePhotobookStore();
       try {
         const res = (await photobookService.delete(id))

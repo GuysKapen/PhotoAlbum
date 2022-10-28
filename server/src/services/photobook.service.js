@@ -1,5 +1,5 @@
 const knex = require('../database/knex');
-class ContactService {
+class PhotobookService {
     constructor() {
         this.photobooks = knex('photobooks');
     }
@@ -64,4 +64,4 @@ class ContactService {
             .select('*')
     }
 }
-module.exports = ContactService;
+module.exports = PhotobookService;
