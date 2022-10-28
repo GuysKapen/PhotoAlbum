@@ -15,6 +15,10 @@ export const useAlbumStore = defineStore({
             this.albums = albums
             return albums
         },
+        async getPhotobooks(id) {
+            const albums = await albumService.getPhotobooks(id)
+            return albums
+        },
         addAlbum(album) {
             this.albums = [...this.photobooks, album]
         },

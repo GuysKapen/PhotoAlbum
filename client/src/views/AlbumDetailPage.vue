@@ -1,52 +1,44 @@
+<script setup>
+import { imgUrlFor } from "@/utils/utils"
+const serverUrl = import.meta.env.VITE_SERVER_URL
+</script>
 <template>
-  <div>
-    <h3 class="text-4xl font-semibold">Album {{ albumName }}</h3>
-    <div class="flex w-full mt-10 items-center justify-center bg-grey-lighter">
-      <form enctype="multipart/form-data" novalidate>
-        <label
-          class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-green-600"
-        >
-          <svg
-            class="w-8 h-8"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <path
-              d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"
-            />
-          </svg>
-          <span class="mt-2 text-base leading-normal">Select a file</span>
-          <input @change="onFileChange" accept="image/*" type="file" class="hidden" />
-        </label>
-      </form>
-    </div>
-    <div class="text-2xl mt-4">List Of Photos</div>
-    <div class="flex flex-wrap p-10 justify-center m-auto w-full" v-if="photos">
-      <div class="shadow-xl ml-4 mt-4 w-4/12" v-for="(photo, idx) in photos" :key="idx">
-        <div v-if="photo.createdAt && photo.gps">
-          <ul>
-            <li>Created At {{ photo.createdAt }}</li>
-            <li>
-              latitude
-              {{ photo.gps.latitude }}
-            </li>
-            <li>longitude At {{ photo.gps.longitude }}</li>
-          </ul>
+  <div v-if="album" class="px-8">
+    <h3 class="text-2xl text-gray-700 font-bold mt-4">{{album.name}}</h3>
+    <div class="mx-auto w-8/12 my-16">
+      <vue-flex-waterfall class="mx-auto w-full" :col="5" :col-spacing="15" :break-at="4" :break-by-container="true"
+        style="align-content: center;">
+        <div class="mb-4 w-1/5" v-for="(photobook, index) in photobooks" :key="index">
+          <div class="flex flex-col">
+            <router-link :to="{'name': 'photobook-detail', params: {id: photobook.id}}">
+              <div class="flex-shrink-0">
+                <img :src="imgUrlFor(serverUrl, photobook.cover)" alt="book" class="rounded-md w-full h-auto" />
+              </div>
+            </router-link>
+            <div class="">
+              <h3 class="text-gray-800 font-medium text-base">{{ photobook.name }}</h3>
+            </div>
+          </div>
         </div>
-      </div>
+      </vue-flex-waterfall>
     </div>
   </div>
 </template>
 
 <script>
+import { useAlbumStore } from "@/stores/albums"
+import { VueFlexWaterfall } from 'vue-flex-waterfall';
+
 export default {
-  mounted() {
-    this.getPhotos();
+  components: { VueFlexWaterfall },
+  async mounted() {
+    this.album = (await useAlbumStore().getAlbum(this.id))
+
+    this.photobooks = (await useAlbumStore().getPhotobooks(this.id))
   },
   data: () => ({
-    photos: [],
-    albumName: "",
+    photobooks: [],
+    album: null,
   }),
   methods: {
     async onFileChange(file) {
