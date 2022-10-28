@@ -13,6 +13,6 @@ exports.verifyToken = function (req, res, next) {
             }
         });
     } else {
-        response.sendUnauthorized(res, 'No token provided.');
+        res.status(401).send({ success: false, message: 'Failed to authenticate token.' });
     }
 };
