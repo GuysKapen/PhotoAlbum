@@ -37,12 +37,6 @@ app.route('/api/authenticate')
 app.route('/api/register')
     .post(authController.registerController)
 
-// Albums
-app.route('/api/users/:userId/albums')
-    .get(albumController.findOfUser)
-    .post(albumController.create)
-    .delete(albumController.deleteAll)
-
 app.route('/api/users/:userId/uploads/image')
     .post(uploadController.uploadImage)
 
@@ -69,6 +63,25 @@ photobookRoutes.route('/:id/pages')
     .get(photobookController.pages)
 
 app.use("/api/photobooks", photobookRoutes)
+
+// Album routes
+const albumRoutes = express.Router();
+
+albumRoutes.use(authMiddleware.verifyToken);
+
+albumRoutes.route('/')
+    .get(albumController.findOfUser)
+    .post(albumController.create)
+
+albumRoutes.route('/:id')
+    .get(albumController.read)
+    .put(albumController.update)
+    .delete(albumController.delete);
+
+albumRoutes.route('/:id/photobooks')
+    .get(albumController.photobooks)
+
+app.use("/api/albums", albumRoutes)
 
 app.use((req, res, next) => {
     return next(new ApiError(404, 'Resource not found'))

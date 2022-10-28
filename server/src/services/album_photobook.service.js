@@ -62,5 +62,12 @@ class AlbumService {
             .where('owner', userId)
             .select('*')
     }
+
+    async findOfAlbum(albumdId) {
+        return await this.albumPhotobook
+            .join('photobooks', 'photobooks.id', 'album_photobook.photobook_id')
+            .where('album_photobook.album_id', albumdId)
+            .select('photobooks.*');
+    }
 }
 module.exports = AlbumService;

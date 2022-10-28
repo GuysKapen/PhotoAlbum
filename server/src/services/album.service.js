@@ -24,6 +24,7 @@ class AlbumService {
     }
 
     async all() {
+        console.log("sjfksjkfs");
         return await this.albums.select('*');
     }
 

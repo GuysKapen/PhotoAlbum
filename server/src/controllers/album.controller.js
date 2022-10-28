@@ -123,11 +123,12 @@ exports.findAllFavorite = async (req, res, next) => {
 
 // For specific user
 exports.findOfUser = async (req, res, next) => {
+    const userId = req.params.userId || req.userId
     let albums = []
 
     try {
         const albumService = new AlbumService();
-        albums = await albumService.findOfUser(req.params.userId);
+        albums = await albumService.findOfUser(userId);
     } catch (error) {
         console.log(error);
         return next(new ApiError(500, 'Error occurred in retrieving favorite albums albums'))
@@ -148,4 +149,20 @@ exports.addToUser = async (req, res, next) => {
     }
 
     return res.send(albums)
+}
+
+exports.photobooks = async (req, res, next) => {
+    try {
+        const albumPhotobookService = new AlbumPhotobookService();
+        const books = await albumPhotobookService.findOfAlbum(req.params.id);
+
+        if (!books) {
+            return next(new ApiError(404, 'Not found'));
+        }
+
+        return res.send(books);
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(500, 'Error occurred'))
+    }
 }
