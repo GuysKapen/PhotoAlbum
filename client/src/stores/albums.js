@@ -1,26 +1,22 @@
 import { defineStore } from "pinia";
-import axios from 'axios'
-
-import { useAuthStore } from "@/stores/auth/auth";
+import { albumService } from "@/services/album.service";
 
 export const useAlbumStore = defineStore({
     id: "album",
     state: () => ({
-        albums: [],
+        albums: []
     }),
     actions: {
-        async getAlbum(albumId) {
-            const res = await axios.get(`/api/users/${this.user.id}/albums/${albumId}`, { params: { token: this.token } })
-            return res.data
+        async getAlbum(id) {
+            return (await albumService.get(id))
         },
         async getAlbums() {
-            const authStore = useAuthStore()
-            const res = await axios.get(`/api/users/${authStore.user.id}/albums`, { params: { token: authStore.token } })
-            this.albums = res.data
-            return res.data
+            const albums = await albumService.getMany()
+            this.albums = albums
+            return albums
         },
         addAlbum(album) {
-            this.albums = [...this.albums, album]
+            this.albums = [...this.photobooks, album]
         },
-    },
+    }
 });

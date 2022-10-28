@@ -1,7 +1,4 @@
 import { defineStore } from "pinia";
-import axios from 'axios'
-
-import { useAuthStore } from "@/stores/auth/auth";
 import { photobookService } from "@/services/photobook.service";
 
 export const usePhotobookStore = defineStore({
@@ -11,8 +8,7 @@ export const usePhotobookStore = defineStore({
     }),
     actions: {
         async getPhotbook(id) {
-            const res = await axios.get(`/api/users/${this.user.id}/albums/${albumId}`, { params: { token: this.token } })
-            return res.data
+            return (await photobookService.get(id))
         },
         async getPhotobooks() {
             const books = await photobookService.getMany()
@@ -22,5 +18,5 @@ export const usePhotobookStore = defineStore({
         addPhotobook(photobook) {
             this.photobooks = [...this.photobooks, photobook]
         },
-    },
+    }
 });
