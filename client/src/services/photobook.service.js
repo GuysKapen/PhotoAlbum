@@ -34,5 +34,8 @@ class PhotobookService {
     async delete(id) {
         return (await this.api.delete(`${this.baseUrl}/${id}`)).data;
     }
+    async getPages(id) {
+        return (await this.api.get(`${this.baseUrl}/${id}/pages`)).data;
+    }
 }
 export const photobookService = new PhotobookService();

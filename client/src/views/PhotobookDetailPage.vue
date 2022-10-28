@@ -3,7 +3,7 @@ import { imgUrlFor } from "@/utils/utils"
 const serverUrl = import.meta.env.VITE_SERVER_URL
 </script>
 <template>
-  <div class="my-16">
+  <div class="my-16" v-if="photobook">
     <div class="flex w-9/12 mx-auto">
       <div class="flex-shrink-0 w-5/12">
         <img :src="imgUrlFor(serverUrl, photobook.cover)" alt="book" class="rounded-md w-full h-[24rem] object-cover" />
@@ -44,6 +44,7 @@ const serverUrl = import.meta.env.VITE_SERVER_URL
 import axios from 'axios';
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+import { photobookService } from '@/services/photobook.service';
 
 export default {
   components: {
@@ -53,14 +54,13 @@ export default {
     Navigation,
   },
   async mounted() {
-    const res = await axios.get(`/api/photobooks/${this.id}`)
-    this.photobook = res.data
+    const data = await photobookService.get(this.id)
+    this.photobook = data
 
-    this.pages = (await axios.get(`/api/photobooks/${this.id}/pages`)).data
-    console.log("this", this.pages);
+    this.pages = await photobookService.getPages(this.id)
   },
   data: () => ({
-    photobook: [],
+    photobook: null,
     pages: []
   }),
   methods: {
