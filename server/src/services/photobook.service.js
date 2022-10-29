@@ -36,8 +36,9 @@ class PhotobookService {
 
     async findById(id) {
         return await this.photobooks
-            .where('id', id)
-            .select('*')
+            .join('users', 'users.id', 'photobooks.owner')
+            .where('photobooks.id', id)
+            .select('photobooks.*', 'users.name as owner')
             .first()
     }
 
