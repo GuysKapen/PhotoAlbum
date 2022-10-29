@@ -13,10 +13,10 @@ const serverUrl = import.meta.env.VITE_SERVER_URL
           {{photobook.name}}
         </h2>
         <p class="text-sm text-gray-500 mt-2">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus assumenda esse excepturi.
+          {{photobook.description}}
         </p>
         <h3 class="text-xl mt-3 font-bold text-gray-800">
-          Art station
+          {{photobook.owner}}
         </h3>
       </div>
     </div>

@@ -6,7 +6,7 @@ class PhotobookService {
 
     #getPhotobook(payload) {
         const photobook = { ...payload };
-        const contactProperties = ["name", "cover", "owner", "favorite"];
+        const contactProperties = ["name", "description", "cover", "owner", "favorite"];
 
         Object.keys(photobook).forEach(function (key) {
             if (contactProperties.indexOf(key) < 0) {
