@@ -37,5 +37,8 @@ class PhotobookService {
     async getPages(id) {
         return (await this.api.get(`${this.baseUrl}/${id}/pages`)).data;
     }
+    async toggleFavorite(id) {
+        return (await this.api.put(`${this.baseUrl}/${id}/favorite`)).data;
+    }
 }
 export const photobookService = new PhotobookService();

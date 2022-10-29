@@ -27,8 +27,9 @@
                     class="material-symbols-outlined text-sm cursor-pointer text-gray-500 hover:text-indigo-500">
                     delete
                   </span>
-                  <span class="material-symbols-outlined text-sm text-gray-500 hover:text-indigo-500">
-                    favorite
+                  <span @click="toggleFavorite(photobook.id)"
+                    class="material-icons cursor-pointer text-sm text-gray-500 hover:text-indigo-500">
+                    {{photobook.favorite ? 'favorite' : 'favorite_border'}}
                   </span>
                 </div>
               </div>
@@ -119,6 +120,16 @@ export default {
       try {
         await photobookService.delete(id)
         photobookStore.removePhotobook(id);
+      }
+      catch (error) {
+        console.error("Remove photobook", error);
+      }
+    },
+    async toggleFavorite(id) {
+      const photobookStore = usePhotobookStore();
+      try {
+        await photobookService.toggleFavorite(id)
+        photobookStore.updateFavorite(id);
       }
       catch (error) {
         console.error("Remove photobook", error);

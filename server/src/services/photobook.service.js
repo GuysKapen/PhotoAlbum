@@ -64,5 +64,9 @@ class PhotobookService {
             .where('owner', userId)
             .select('*')
     }
+
+    async toggleFavorite(id) {
+        return await this.photobooks.where('id', id).update({ favorite: knex.raw('not favorite') })
+    }
 }
 module.exports = PhotobookService;

@@ -43,7 +43,7 @@ app.route('/api/users/:userId/uploads/image')
 app.route('/api/public/photobooks')
     .get(photobookController.list)
 
-const photobookRoutes = express.Router({ mergeParams: true });
+const photobookRoutes = express.Router();
 
 photobookRoutes.use(authMiddleware.verifyToken);
 
@@ -55,6 +55,9 @@ photobookRoutes.route('/:id')
     .get(photobookController.read)
     .put(photobookController.update)
     .delete(photobookController.delete);
+
+photobookRoutes.route('/:id/favorite')
+    .put(photobookController.toggleFavorite)
 
 photobookRoutes.route('/favorite')
     .get(photobookController.findAllFavorite)

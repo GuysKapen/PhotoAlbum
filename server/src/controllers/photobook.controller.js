@@ -182,3 +182,18 @@ exports.addToUser = async (req, res, next) => {
 
     return res.send(photobooks)
 }
+
+exports.toggleFavorite = async (req, res, next) => {
+    try {
+        const photobookService = new PhotobookService();
+        const updated = await photobookService.toggleFavorite(req.params.id);
+
+        if (!updated) {
+            return next(new ApiError(404, 'Not found'))
+        }
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(500, `Could not update photobook with id=${req.params.id}`))
+    }
+    return res.send({ message: 'Photobook was updated successfully' })
+}

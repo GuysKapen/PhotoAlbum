@@ -24,6 +24,9 @@ export const usePhotobookStore = defineStore({
         },
         removePhotobook(id) {
             this.photobooks = this.photobooks.filter(el => el["id"] != id)
+        },
+        updateFavorite(id) {
+            this.photobooks = this.photobooks.map(el => (el["id"] === id) ? (Object.assign(el, { favorite: !el.favorite })) : el)
         }
     }
 });
