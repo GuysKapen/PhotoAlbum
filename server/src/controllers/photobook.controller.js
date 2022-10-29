@@ -72,7 +72,7 @@ exports.update = async (req, res, next) => {
 
         if ("pages" in req.body && req.body["pages"]) {
             const photopageService = new PhotopageService()
-            
+
             for (let index = 0; index < req.body["pages"].length; index++) {
                 const page = req.body["pages"][index];
                 // If id exist (update)
@@ -108,6 +108,7 @@ exports.delete = async (req, res, next) => {
         console.log(error);
         return next(new ApiError(500, `Could not delete contact with id=${req.params.id}`))
     }
+    return res.send({ message: 'Photobook was deleted successfully' })
 }
 
 exports.deleteAll = async (req, res, next) => {

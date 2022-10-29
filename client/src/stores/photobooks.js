@@ -22,5 +22,8 @@ export const usePhotobookStore = defineStore({
         addPhotobook(photobook) {
             this.photobooks = [...this.photobooks, photobook]
         },
+        removePhotobook(id) {
+            this.photobooks = this.photobooks.filter(el => el["id"] != id)
+        }
     }
 });

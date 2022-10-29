@@ -105,7 +105,7 @@ export default {
 
       try {
         let res = await photobookService.create(photobook)
-        photobookStore.addPhotobook(res.data);
+        photobookStore.addPhotobook(res);
       }
       catch (error) {
         console.error("Create photobook", error);
@@ -117,8 +117,8 @@ export default {
 
       const photobookStore = usePhotobookStore();
       try {
-        const res = (await photobookService.delete(id))
-        photobookStore.removePhotobook(res);
+        await photobookService.delete(id)
+        photobookStore.removePhotobook(id);
       }
       catch (error) {
         console.error("Remove photobook", error);
