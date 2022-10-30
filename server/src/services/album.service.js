@@ -63,5 +63,9 @@ class AlbumService {
             .where('owner', userId)
             .select('*')
     }
+
+    async toggleFavorite(id) {
+        return await this.albums.where('id', id).update({ favorite: knex.raw('not favorite') })
+    }
 }
 module.exports = AlbumService;

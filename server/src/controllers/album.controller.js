@@ -168,3 +168,18 @@ exports.photobooks = async (req, res, next) => {
         return next(new ApiError(500, 'Error occurred'))
     }
 }
+
+exports.toggleFavorite = async (req, res, next) => {
+    try {
+        const albumService = new AlbumService();
+        const updated = await albumService.toggleFavorite(req.params.id);
+
+        if (!updated) {
+            return next(new ApiError(404, 'Not found'))
+        }
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(500, `Could not update album with id=${req.params.id}`))
+    }
+    return res.send({ message: 'Album was updated successfully' })
+}

@@ -37,5 +37,8 @@ class AlbumService {
     async getPhotobooks(id) {
         return (await this.api.get(`${this.baseUrl}/${id}/photobooks`)).data;
     }
+    async toggleFavorite(id) {
+        return (await this.api.put(`${this.baseUrl}/${id}/favorite`)).data;
+    }
 }
 export const albumService = new AlbumService();

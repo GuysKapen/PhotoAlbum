@@ -81,6 +81,9 @@ albumRoutes.route('/:id')
     .put(albumController.update)
     .delete(albumController.delete);
 
+albumRoutes.route('/:id/favorite')
+    .put(albumController.toggleFavorite)
+
 albumRoutes.route('/:id/photobooks')
     .get(albumController.photobooks)
 

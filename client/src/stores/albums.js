@@ -25,6 +25,10 @@ export const useAlbumStore = defineStore({
         async delete(id) {
             await albumService.delete(id)
             this.albums = this.albums.filter(el => el["id"] != id)
+        },
+        async toggleFavorite(id) {
+            await albumService.toggleFavorite(id)
+            this.albums = this.albums.map(el => (el["id"] === id) ? (Object.assign(el, { favorite: !el.favorite })) : el)
         }
     }
 });
