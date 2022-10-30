@@ -3,6 +3,7 @@ const AlbumPhotobookService = require('../services/album_photobook.service')
 const ApiError = require('../api_error')
 
 exports.create = async (req, res, next) => {
+    console.log("req", req.body);
     if (!req.body.name) {
         return next(new ApiError(400, 'Name can not be empty'))
     }
@@ -93,6 +94,7 @@ exports.delete = async (req, res, next) => {
         console.log(error);
         return next(new ApiError(500, `Could not delete album with id=${req.params.id}`))
     }
+    return res.send({ message: 'Album was deleted successfully' })
 }
 
 exports.deleteAll = async (req, res, next) => {

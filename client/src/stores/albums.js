@@ -20,7 +20,11 @@ export const useAlbumStore = defineStore({
             return albums
         },
         addAlbum(album) {
-            this.albums = [...this.photobooks, album]
+            this.albums = [...this.albums, album]
         },
+        async delete(id) {
+            await albumService.delete(id)
+            this.albums = this.albums.filter(el => el["id"] != id)
+        }
     }
 });

@@ -4,7 +4,7 @@ class AlbumService {
         this.albums = knex('albums');
     }
 
-    #getPhotobook(payload) {
+    #getAlbum(payload) {
         const album = { ...payload };
         const albumProperties = ["name", "cover", "owner", "favorite"];
 
@@ -18,7 +18,7 @@ class AlbumService {
     }
 
     async create(payload) {
-        const album = this.#getPhotobook(payload);
+        const album = this.#getAlbum(payload);
         const [id] = await this.albums.insert(album);
         return { id, ...album };
     }
@@ -42,7 +42,7 @@ class AlbumService {
     }
 
     async update(id, payload) {
-        const album = this.#getPhotobook(payload);
+        const album = this.#getAlbum(payload);
         return await this.albums.where('id', id).update(album)
     }
 

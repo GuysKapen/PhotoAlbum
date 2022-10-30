@@ -7,6 +7,7 @@ import PhotobooksView from "@/views/PhotobooksView.vue";
 import AlbumDetailPage from "@/views/AlbumDetailPage.vue";
 import PhotobookDetailPageVue from "@/views/PhotobookDetailPage.vue";
 import EditPhotobookViewVue from "@/views/EditPhotobookView.vue";
+import EditAlbumViewVue from "@/views/EditAlbumView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,11 @@ const router = createRouter({
       path: "/albums/:id",
       name: "album-detail",
       component: AlbumDetailPage,
+    },
+    {
+      path: "/albums/:id/edit",
+      name: "album-edit",
+      component: EditAlbumViewVue,
     },
     {
       path: "/albums",
