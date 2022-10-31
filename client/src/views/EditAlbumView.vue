@@ -9,8 +9,11 @@
 
 <script>
 import { useAlbumStore } from "@/stores/albums"
+import { useAuthStore } from "@/stores/auth/auth"
 import AlbumForm from "@/components/AlbumForm.vue";
-import { photobookService } from '@/services/photobook.service';
+import { createToast } from 'mosha-vue-toastify';
+import { mapState } from "pinia";
+import axios from 'axios';
 
 export default {
   async mounted() {
@@ -20,7 +23,33 @@ export default {
   data: () => ({ album: null }),
   components: { AlbumForm },
   methods: {
-    
+    async update(album) {
+      const albumStore = useAlbumStore();
+      if (album.cover != null) {
+        const form = new FormData();
+        form.append("image", album.cover);
+        let res = await axios.post(`/api/users/${this.user.id}/uploads/image`, form, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.token}`,
+            "x-access-token": this.token,
+          },
+        });
+        album.cover = res.data?.data?.name || album.cover;
+      }
+
+      try {
+        await albumStore.update(this.$route.params.id, album)
+        createToast("Succeed update album", { type: 'success' })
+      }
+      catch (error) {
+        console.error("Update album", error);
+      }
+    },
+  },
+  computed: {
+    ...mapState(useAuthStore, ["user"]),
+    ...mapState(useAuthStore, ["token"]),
   },
 };
 </script>

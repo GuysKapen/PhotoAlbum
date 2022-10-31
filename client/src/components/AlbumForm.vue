@@ -61,7 +61,7 @@
                 </div>
             </div>
             <button class="bg-indigo-600 py-3 rounded-md text-white font-black text-sm my-4" @click="createAlbum()">
-                Create album
+                Save
             </button>
         </div>
         <div class="text-red-500">{{ error }}</div>
