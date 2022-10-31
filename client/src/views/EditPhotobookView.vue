@@ -11,6 +11,10 @@
 import { usePhotobookStore } from "@/stores/photobooks"
 import PhotobookForm from "@/components/PhotobookForm.vue";
 import { photobookService } from '@/services/photobook.service';
+import { createToast } from 'mosha-vue-toastify';
+import { useAuthStore } from "@/stores/auth/auth";
+import { mapState } from "pinia";
+import axios from 'axios';
 
 export default {
   async mounted() {
@@ -54,13 +58,18 @@ export default {
       }
 
       try {
-        let res = await photobookService.update(this.$route.params.id, photobook) 
+        let res = await photobookService.update(this.$route.params.id, photobook)
         photobookStore.addPhotobook(res.data);
+        createToast("Succeed update photobook", { type: 'success' })
       }
       catch (error) {
         console.error("Create photobook", error);
       }
     },
+  },
+  computed: {
+    ...mapState(useAuthStore, ["user"]),
+    ...mapState(useAuthStore, ["token"]),
   },
 };
 </script>

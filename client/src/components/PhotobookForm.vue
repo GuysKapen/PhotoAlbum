@@ -156,7 +156,7 @@
                 </button>
             </div>
             <button class="bg-indigo-600 py-3 rounded-md text-white font-black text-sm my-4" @click="createPhotobook()">
-                Create Photobook
+                Save
             </button>
         </div>
         <div class="text-red-500">{{ error }}</div>

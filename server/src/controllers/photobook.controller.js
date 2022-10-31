@@ -62,13 +62,14 @@ exports.read = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
+    const photobookId = req.params.id
     try {
         if (Object.keys(req.body).length === 0) {
             return next(new ApiError(400, 'Data update connot be empty'))
         }
 
         const photobookService = new PhotobookService();
-        const updated = await photobookService.update(req.params.id, req.body);
+        const updated = await photobookService.update(photobookId, req.body);
 
         if ("pages" in req.body && req.body["pages"]) {
             const photopageService = new PhotopageService()
@@ -77,9 +78,9 @@ exports.update = async (req, res, next) => {
                 const page = req.body["pages"][index];
                 // If id exist (update)
                 if (page.id) {
-                    await photopageService.update(page.id, { photobook_id: updated.id, ...page })
+                    await photopageService.update(page.id, { photobook_id: photobookId, ...page })
                 } else {
-                    await photopageService.create({ photobook_id: updated.id, ...page })
+                    await photopageService.create({ photobook_id: photobookId, ...page })
                 }
             }
             await photopageService.deleteOfBook(req.params.id, req.body["pages"].map(el => el.id))
