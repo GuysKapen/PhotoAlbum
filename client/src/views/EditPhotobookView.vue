@@ -39,7 +39,7 @@ export default {
             "x-access-token": this.token,
           },
         });
-        photobook.cover = res.data.data.name;
+        photobook.cover = res.data?.data?.name || photobook.cover;
       }
       for (let index = 0; index < photobook.pages?.length ?? 0; index++) {
         const page = photobook.pages[index];
@@ -53,7 +53,8 @@ export default {
               "x-access-token": this.token,
             },
           });
-          page.image = res.data.data.name;
+          
+          page.image = res.data?.data?.name || page.image;
         }
       }
 
