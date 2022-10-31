@@ -1,6 +1,7 @@
 const AlbumService = require('../services/album.service')
 const AlbumPhotobookService = require('../services/album_photobook.service')
 const ApiError = require('../api_error')
+const fs = require('fs')
 
 exports.create = async (req, res, next) => {
     console.log("req", req.body);
@@ -69,6 +70,21 @@ exports.update = async (req, res, next) => {
         }
 
         const albumService = new AlbumService();
+        const album = await albumService.findById(req.params.id)
+        if (!album) {
+            return next(new ApiError(404, 'Not found'))
+        }
+
+        if (req.body['cover'] && album.cover !== req.body['cover']) {
+            fs.unlink(album.cover, (err) => {
+                if (err) {
+                    console.log(`Failed to delete ${album.cover}: ` + err);
+                } else {
+                    console.log(`Successfully deleted ${album.cover}`);
+                }
+            })
+        }
+
         const updated = await albumService.update(req.params.id, req.body);
 
         if (!updated) {

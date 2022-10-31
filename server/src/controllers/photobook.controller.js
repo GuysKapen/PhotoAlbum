@@ -1,6 +1,7 @@
 const PhotobookService = require('../services/photobook.service')
 const PhotopageService = require('../services/photopage.service')
 const ApiError = require('../api_error')
+const fs = require('fs')
 
 exports.create = async (req, res, next) => {
     if (!req.body.name) {
@@ -68,6 +69,22 @@ exports.update = async (req, res, next) => {
             return next(new ApiError(400, 'Data update connot be empty'))
         }
 
+        const photobook = await (new PhotobookService()).findById(req.params.id)
+        if (!photobook) {
+            return next(new ApiError(404, 'Not found'))
+        }
+
+        // Remove old cover
+        if (req.body['cover'] && photobook.cover && photobook.cover !== req.body['cover']) {
+            fs.unlink(photobook.cover, (err) => {
+                if (err) {
+                    console.log(`Failed to delete ${photobook.cover}: ` + err);
+                } else {
+                    console.log(`Successfully deleted ${photobook.cover}`);
+                }
+            })
+        }
+
         const photobookService = new PhotobookService();
         const updated = await photobookService.update(photobookId, req.body);
 
@@ -78,6 +95,20 @@ exports.update = async (req, res, next) => {
                 const page = req.body["pages"][index];
                 // If id exist (update)
                 if (page.id) {
+
+                    let oldPage = await (new PhotopageService()).findById(page.id)
+                    // Remove old cover
+                    if (oldPage && page.image && oldPage.image
+                        && page.image !== oldPage.image) {
+                        fs.unlink(oldPage.image, (err) => {
+                            if (err) {
+                                console.log(`Failed to delete ${oldPage.image}: ` + err);
+                            } else {
+                                console.log(`Successfully deleted ${oldPage.image}`);
+                            }
+                        })
+                    }
+
                     await photopageService.update(page.id, { photobook_id: photobookId, ...page })
                 } else {
                     await photopageService.create({ photobook_id: photobookId, ...page })
