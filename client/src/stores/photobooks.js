@@ -27,6 +27,10 @@ export const usePhotobookStore = defineStore({
         },
         updateFavorite(id) {
             this.photobooks = this.photobooks.map(el => (el["id"] === id) ? (Object.assign(el, { favorite: !el.favorite })) : el)
+        },
+        async update(id, model) {
+            await photobookService.update(id, model)
+            this.photobooks = this.photobooks.map(el => (el["id"] === id) ? model : el)
         }
     }
 });
