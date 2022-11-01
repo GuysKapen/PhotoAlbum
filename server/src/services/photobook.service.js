@@ -61,8 +61,11 @@ class PhotobookService {
 
     async findOfUser(userId) {
         return await this.photobooks
+            .leftJoin("photopages", "photopages.photobook_id", "photobooks.id")
             .where('owner', userId)
-            .select('*')
+            .groupBy('photobooks.id')
+            .count('photopages.id as pages')
+            .select('photobooks.*')
     }
 
     async toggleFavorite(id) {

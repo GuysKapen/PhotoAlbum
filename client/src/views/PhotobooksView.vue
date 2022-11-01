@@ -16,9 +16,9 @@
             <div class="ml-4 flex flex-col justify-between">
               <div>
                 <h3 class="text-gray-800 text-base">{{ photobook.name }}</h3>
-                <p class="text-gray-400 text-sm font-light">Pages: 3</p>
+                <p class="text-gray-400 text-sm font-light">Pages: {{ photobook.pages }}</p>
                 <div class="mt-4 flex items-center justify-between">
-                  <router-link :to="{name: 'photobook-edit', params: {id: photobook.id}}">
+                  <router-link :to="{ name: 'photobook-edit', params: { id: photobook.id } }">
                     <span class="material-symbols-outlined text-sm text-gray-500 hover:text-indigo-500">
                       edit
                     </span>
@@ -29,11 +29,11 @@
                   </span>
                   <span @click="toggleFavorite(photobook.id)"
                     class="material-icons cursor-pointer text-sm text-gray-500 hover:text-indigo-500">
-                    {{photobook.favorite ? 'favorite' : 'favorite_border'}}
+                    {{ photobook.favorite ? 'favorite' : 'favorite_border' }}
                   </span>
                 </div>
               </div>
-              <router-link :to="{name: 'photobook-detail', params: {id: photobook.id}}">
+              <router-link :to="{ name: 'photobook-detail', params: { id: photobook.id } }">
                 <div class="
                   rounded-full
                   text-white
