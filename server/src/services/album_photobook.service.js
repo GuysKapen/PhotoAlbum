@@ -45,8 +45,12 @@ class AlbumService {
         return await this.albumPhotobook.where('id', id).update(album)
     }
 
-    async delete(id) {
+    async deleteofAlbum(id) {
         return await this.albumPhotobook.where('id', id).del()
+    }
+
+    async deleteOfBook(id) {
+        return await this.albumPhotobook.where('photobook_id', id).del()
     }
 
     async findAllFavorite() {

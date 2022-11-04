@@ -43,6 +43,10 @@ app.route('/api/users/:userId/uploads/image')
 app.route('/api/public/photobooks')
     .get(photobookController.list)
 
+app.route('/api/public/albums')
+    .get(albumController.list)
+
+// Photobooks routes
 const photobookRoutes = express.Router();
 
 photobookRoutes.use(authMiddleware.verifyToken);

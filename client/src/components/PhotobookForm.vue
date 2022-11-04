@@ -29,6 +29,27 @@
             " rows="4" placeholder="Description..." type="text" v-model="newPhotobook.description" />
             </div>
 
+            <div class="field">
+                <div class="control flex flex-col flex-wrap mt-2 justify-start">
+                    <label class="block font-semibold text-sm mt-2 w-4/12" for="input1">Album</label>
+                    <div class="mt-2">
+
+                        <div class="relative flex w-full">
+                            <select v-model="newPhotobook.album" id="select-album" name="album"
+                                placeholder="Select album..." autocomplete="off"
+                                class="block w-full rounded-sm cursor-pointer focus:outline-none">
+                                <option value="-1" selected="selected">No album</option>
+                                <option v-for="(album, idx) in albums" :key="idx" :value="album.id">
+                                    {{ album.name }}</option>
+                            </select>
+                        </div>
+
+                        <span class="text-xs italic">The album of the book</span>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="mt-4">
                 <label class="block text-sm font-medium text-gray-700">
                     Cover photo
@@ -77,10 +98,10 @@
             <label class="block text-sm font-medium text-gray-700 mt-4"> Pages </label>
             <div class="mt-2 ml-4" v-for="(page, idx) in newPhotobook.pages" :key="idx">
                 <div class="my-2 flex justify-between">
-                    <p class="text-gray-700 text-sm">Page {{idx + 1}}</p>
+                    <p class="text-gray-700 text-sm">Page {{ idx + 1 }}</p>
                     <button @click="page['collapse'] = !page['collapse']">
                         <span class="material-symbols-outlined mr-2 mt-[0.1rem]">
-                            {{page['collapse'] ? 'arrow_drop_down' : 'arrow_drop_up'}}
+                            {{ page['collapse'] ? 'arrow_drop_down' : 'arrow_drop_up' }}
                         </span>
                     </button>
                 </div>
@@ -166,6 +187,8 @@
 <script>
 import { useAuthStore } from "@/stores/auth/auth";
 import { imgUrlFor } from "@/utils/utils";
+import axios from 'axios';
+import TomSelect from 'tom-select'
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 export default {
     props: {
@@ -174,12 +197,19 @@ export default {
     data() {
         return {
             newPhotobook: {
-                ...this.photobook, owner: useAuthStore().user.id
+                ...this.photobook, owner: useAuthStore().user.id, album: -1
             },
             error: "",
             serverUrl,
             imgUrlFor,
+            albums: []
         }
+    },
+    async mounted() {
+        this.albums = (await axios.get("/api/public/albums")).data
+        setTimeout(function () {
+            new TomSelect('#select-album', {});
+        }, 0)
     },
     methods: {
         onImageSelected(e) {
@@ -213,6 +243,7 @@ export default {
             }
         },
         createPhotobook() {
+            console.log("sfw", this.newPhotobook);
             this.$emit('submit:photobook', { ...this.newPhotobook })
             this.cover = null;
             this.name = null;

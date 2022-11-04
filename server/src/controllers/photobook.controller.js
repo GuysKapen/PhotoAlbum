@@ -1,5 +1,6 @@
 const PhotobookService = require('../services/photobook.service')
 const PhotopageService = require('../services/photopage.service')
+const AlbumPhotobookService = require('../services/album_photobook.service')
 const ApiError = require('../api_error')
 const fs = require('fs')
 
@@ -7,6 +8,8 @@ exports.create = async (req, res, next) => {
     if (!req.body.name) {
         return next(new ApiError(400, 'Name can not be empty'))
     }
+
+    console.log("req", req.body);
 
     try {
         const photobookService = new PhotobookService()
@@ -18,6 +21,12 @@ exports.create = async (req, res, next) => {
                 const photopageService = new PhotopageService()
                 photopageService.create({ photobook_id: photobook.id, ...page })
             }
+        }
+
+        if ("album" in req.body && req.body["album"]) {
+            const albumPhotobookService = new AlbumPhotobookService()
+
+            await albumPhotobookService.create({ album_id: req.body["album"], photobook_id: photobook.id })
         }
 
         return res.send(photobook)
@@ -116,6 +125,16 @@ exports.update = async (req, res, next) => {
             }
             await photopageService.deleteOfBook(req.params.id, req.body["pages"].map(el => el.id))
         }
+
+
+        if ("album" in req.body && req.body["album"]) {
+            const albumPhotobookService = new AlbumPhotobookService()
+
+            await albumPhotobookService.deleteOfBook(photobookId)
+            await albumPhotobookService.create({ album_id: req.body["album"], photobook_id: photobookId })
+
+        }
+
 
         if (!updated) {
             return next(new ApiError(404, 'Contact not found'))
