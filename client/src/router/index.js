@@ -8,6 +8,17 @@ import AlbumDetailPage from "@/views/AlbumDetailPage.vue";
 import PhotobookDetailPageVue from "@/views/PhotobookDetailPage.vue";
 import EditPhotobookViewVue from "@/views/EditPhotobookView.vue";
 import EditAlbumViewVue from "@/views/EditAlbumView.vue";
+import { useAuthStore } from "@/stores/auth/auth"
+import { createToast } from "mosha-vue-toastify";
+
+function isAuth() {
+  const authStore = useAuthStore();
+  if (authStore.token == null || authStore.user == null) {
+    createToast("Please login to continue", { type: "info" });
+    return { name: 'signin' };
+  }
+  return true;
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,31 +41,37 @@ const router = createRouter({
     {
       path: "/albums/:id",
       name: "album-detail",
+      beforeEnter: [isAuth],
       component: AlbumDetailPage,
     },
     {
       path: "/albums/:id/edit",
       name: "album-edit",
+      beforeEnter: [isAuth],
       component: EditAlbumViewVue,
     },
     {
       path: "/albums",
       name: "albums",
+      beforeEnter: [isAuth],
       component: AlbumsView,
     },
     {
       path: "/photobooks",
       name: "photobooks",
+      beforeEnter: [isAuth],
       component: PhotobooksView,
     },
     {
       path: "/photobooks/:id",
       name: "photobook-detail",
+      beforeEnter: [isAuth],
       component: PhotobookDetailPageVue,
     },
     {
       path: "/photobooks/:id/edit",
       name: "photobook-edit",
+      beforeEnter: [isAuth],
       component: EditPhotobookViewVue,
     },
   ],
