@@ -1,56 +1,39 @@
 <template>
-  <div>
-    <form class="flex flex-col items-center" @submit.prevent="login">
-      <div class="flex flex-col user">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="email"
-          >Email</label
-        >
-        <input
-          class="
-            shadow
-            appearance-none
-            bg-white
-            border
-            rounded
-            w-full
-            py-2
-            px-3
-            text-gray-700
-            leading-tight
-            focus:outline-none focus:shadow-outline
-          "
-          type="email"
-          v-model="email"
-          id="email"
-        />
+  <div class="w-4/12 mx-auto p-16 border mt-12 shadow-md">
+    <h1 class="text-2xl font-bold text-gray-800 text-center">Sign In</h1>
+    <form class="flex flex-col justify-center" @submit.prevent="login">
+      <div>
+        <label class="block text-sm font-medium text-gray-700"> Email </label>
+        <input class="
+              mt-1
+              focus:ring-indigo-500 focus:border-indigo-500
+              block
+              w-full
+              shadow-sm
+              sm:text-sm
+              border-gray-300
+              rounded-md
+            " placeholder="Email..." type="email" v-model="email" />
       </div>
-      <div class="flex flex-col mt-10">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="password"
-          >Password</label
-        >
-        <input
-          class="
-            shadow
-            appearance-none
-            border
-            bg-white
-            rounded
-            w-full
-            py-2
-            px-3
-            text-gray-700
-            mb-3
-            leading-tight
-            focus:outline-none focus:shadow-outline
-          "
-          type="password"
-          v-model="password"
-        />
+      <div class="flex flex-col mt-4">
+        <label class="block text-sm font-medium text-gray-700"> Password </label>
+        <input class="
+              mt-1
+              focus:ring-indigo-500 focus:border-indigo-500
+              block
+              w-full
+              shadow-sm
+              sm:text-sm
+              border-gray-300
+              rounded-md
+            " placeholder="Password" type="password" v-model="password" />
       </div>
       <!-- eslint-disable -->
-      <button class="btn-blue">Sign in</button>
+      <button class="bg-indigo-600 py-3 px-8 mx-auto rounded-md text-white font-black text-sm my-4">
+        Sign In
+      </button>
     </form>
-    <div class="text-red-600">{{ error.message }}</div>
+    <div class="text-red-600 text-sm">{{ error.message }}</div>
   </div>
 </template>
 <script>
