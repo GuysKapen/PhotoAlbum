@@ -23,10 +23,13 @@ exports.create = async (req, res, next) => {
             }
         }
 
-        if ("album" in req.body && req.body["album"]) {
-            const albumPhotobookService = new AlbumPhotobookService()
-
-            await albumPhotobookService.create({ album_id: req.body["album"], photobook_id: photobook.id })
+        if ("album" in req.body && req.body["album"] && req.body["album"] > 0) {
+            try {
+                const albumPhotobookService = new AlbumPhotobookService()
+                await albumPhotobookService.create({ album_id: req.body["album"], photobook_id: photobook.id })
+            } catch (error) {
+                
+            }
         }
 
         return res.send(photobook)
