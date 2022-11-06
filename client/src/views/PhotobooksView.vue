@@ -62,6 +62,7 @@ import { imgUrlFor } from "@/utils/utils";
 import PhotobookForm from "@/components/PhotobookForm.vue";
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 import { photobookService } from '@/services/photobook.service';
+import { createToast } from 'mosha-vue-toastify';
 
 export default {
   async mounted() {
@@ -107,6 +108,7 @@ export default {
       try {
         let res = await photobookService.create(photobook)
         photobookStore.addPhotobook(res);
+        createToast("Succeed add photobook", { type: "success" })
       }
       catch (error) {
         console.error("Create photobook", error);
@@ -120,6 +122,7 @@ export default {
       try {
         await photobookService.delete(id)
         photobookStore.removePhotobook(id);
+        createToast("Succeed delete photobook", { type: "success" })
       }
       catch (error) {
         console.error("Remove photobook", error);

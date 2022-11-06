@@ -18,7 +18,7 @@
                   <h3 class="text-gray-800 hover:text-indigo-800 text-base">{{ album.name }}</h3>
                 </router-link>
                 <div class="mt-4 flex items-center justify-between">
-                  <router-link :to="{name: 'album-edit', params: {id: album.id}}">
+                  <router-link :to="{                          name: 'album-edit', params: {                          id: album.id                          }                          }">
                     <span class="material-symbols-outlined text-sm text-gray-500 hover:text-indigo-500">
                       edit
                     </span>
@@ -29,11 +29,11 @@
                   </span>
                   <span @click="toggleFavorite(album.id)"
                     class="material-icons cursor-pointer text-sm text-gray-500 hover:text-indigo-500">
-                    {{album.favorite ? 'favorite' : 'favorite_border'}}
+                    {{                          album.favorite ? 'favorite' : 'favorite_border'                          }}
                   </span>
                 </div>
               </div>
-              <router-link :to="{name: 'album-detail', params: {id: album.id}}">
+              <router-link :to="{                          name: 'album-detail', params: {                          id: album.id                          }                          }">
                 <div class="
                   rounded-full
                   text-white
@@ -61,6 +61,7 @@ import { usePhotobookStore } from "@/stores/photobooks"
 import axios from "axios";
 import { imgUrlFor } from "@/utils/utils";
 import AlbumFormVue from '@/components/AlbumForm.vue';
+import { createToast } from 'mosha-vue-toastify';
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 export default {
@@ -119,6 +120,7 @@ export default {
           })
           .then((res) => {
             albumStore.addAlbum(res.data);
+            createToast("Succeed add album", { type: "success" })
           });
       } catch (error) {
         console.error("Create album", error);
@@ -131,6 +133,7 @@ export default {
       const albumStore = useAlbumStore();
       try {
         await albumStore.delete(id)
+        createToast("Succeed delete album", { type: "success" })
       }
       catch (error) {
         console.error("Remove photobook", error);

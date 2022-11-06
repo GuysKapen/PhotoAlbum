@@ -243,7 +243,6 @@ export default {
             }
         },
         createPhotobook() {
-            console.log("sfw", this.newPhotobook);
             this.$emit('submit:photobook', { ...this.newPhotobook })
             this.cover = null;
             this.name = null;
