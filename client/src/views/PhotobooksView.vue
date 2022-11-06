@@ -7,7 +7,7 @@
     <div class="my-8 flex-grow pr-12">
       <h5 class="mt-4 text-2xl font-bold text-gray-700">All photobooks</h5>
       <div class="grid grid-cols-3 gap-12 mt-8 w-12/12 mx-auto">
-        <div v-for="(photobook, idx) in photobooks" :key="idx"
+        <div v-for="(photobook, idx) in filteredPhotobooks" :key="idx"
           :to="{ name: 'album-detail', params: { id: photobook.id } }">
           <div class="flex">
             <div class="flex-shrink-0">
@@ -138,11 +138,23 @@ export default {
         console.error("Remove photobook", error);
       }
     },
+    photobookAsString(photobook) {
+      const { name, description } = photobook;
+      return [name, description].join('').toLowerCase();
+    },
   },
   computed: {
     ...mapState(useAuthStore, ["user"]),
     ...mapState(useAuthStore, ["token"]),
     ...mapState(usePhotobookStore, ["photobooks"]),
+    // Return contacts filtered by the search box.
+    filteredPhotobooks() {
+      const searchText = this.$route.query["q"]?.toLowerCase()
+      if (!searchText) return this.photobooks;
+      return this.photobooks.filter((photobook) =>
+        this.photobookAsString(photobook).includes(searchText)
+      );
+    },
   },
 };
 </script>

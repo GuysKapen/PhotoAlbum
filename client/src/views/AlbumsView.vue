@@ -7,7 +7,7 @@
     <div class="my-8 flex-grow pr-12">
       <h5 class="mt-4 text-2xl font-bold text-gray-700">All albums</h5>
       <div class="grid grid-cols-3 gap-12 mt-8 w-12/12 mx-auto">
-        <div v-for="(album, idx) in albums" :key="idx">
+        <div v-for="(album, idx) in filteredAlbums" :key="idx">
           <div class="flex">
             <div class="flex-shrink-0" v-if="album.cover">
               <img :src="imgUrlFor(serverUrl, album.cover)" alt="book" class="rounded-md w-[8.5rem] h-[11rem]" />
@@ -18,7 +18,7 @@
                   <h3 class="text-gray-800 hover:text-indigo-800 text-base">{{ album.name }}</h3>
                 </router-link>
                 <div class="mt-4 flex items-center justify-between">
-                  <router-link :to="{                          name: 'album-edit', params: {                          id: album.id                          }                          }">
+                  <router-link :to="{ name: 'album-edit', params: { id: album.id } }">
                     <span class="material-symbols-outlined text-sm text-gray-500 hover:text-indigo-500">
                       edit
                     </span>
@@ -29,11 +29,11 @@
                   </span>
                   <span @click="toggleFavorite(album.id)"
                     class="material-icons cursor-pointer text-sm text-gray-500 hover:text-indigo-500">
-                    {{                          album.favorite ? 'favorite' : 'favorite_border'                          }}
+                    {{ album.favorite ? 'favorite' : 'favorite_border' }}
                   </span>
                 </div>
               </div>
-              <router-link :to="{                          name: 'album-detail', params: {                          id: album.id                          }                          }">
+              <router-link :to="{ name: 'album-detail', params: { id: album.id } }">
                 <div class="
                   rounded-full
                   text-white
@@ -148,11 +148,22 @@ export default {
         console.error("Remove photobook", error);
       }
     },
+    albumAsString(album) {
+      const { name } = album;
+      return [name].join('').toLowerCase();
+    },
   },
   computed: {
     ...mapState(useAuthStore, ["user"]),
     ...mapState(useAuthStore, ["token"]),
     ...mapState(useAlbumStore, ["albums"]),
+    filteredAlbums() {
+      const searchText = this.$route.query["q"]?.toLowerCase()
+      if (!searchText) return this.albums;
+      return this.albums.filter((album) =>
+        this.albumAsString(album).includes(searchText)
+      );
+    },
   },
 };
 </script>
