@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <Form :validation-schema="formSchema" @submit="submitForm">
         <div class="flex flex-col m-auto mt-8">
             <div>
                 <label class="block text-sm font-medium text-gray-700"> Name </label>
-                <input class="
+                <Field name="name" class="
               mt-1
               focus:ring-indigo-500 focus:border-indigo-500
               block
@@ -13,20 +13,22 @@
               border-gray-300
               rounded-md
             " placeholder="Name..." type="text" v-model="newPhotobook.name" />
+                <ErrorMessage name="name" class="text-sm text-red-800" />
             </div>
 
             <div class="mt-4">
                 <label class="block text-sm font-medium text-gray-700"> Description </label>
-                <textarea class="
-              mt-1
-              focus:ring-indigo-500 focus:border-indigo-500
-              block
-              w-full
-              shadow-sm
-              sm:text-sm
-              border-gray-300
-              rounded-md
-            " rows="4" placeholder="Description..." type="text" v-model="newPhotobook.description" />
+                <Field name="description" as="textarea" class="
+                    mt-1
+                    focus:ring-indigo-500 focus:border-indigo-500
+                    block
+                    w-full
+                    shadow-sm
+                    sm:text-sm
+                    border-gray-300
+                    rounded-md
+                    " rows="4" placeholder="Description..." type="text" v-model="newPhotobook.description" />
+                <ErrorMessage name="description" class="text-sm text-red-800" />
             </div>
 
             <div class="field">
@@ -176,12 +178,12 @@
                     Add new page
                 </button>
             </div>
-            <button class="bg-indigo-600 py-3 rounded-md text-white font-black text-sm my-4" @click="createPhotobook()">
+            <button class="bg-indigo-600 py-3 rounded-md text-white font-black text-sm my-4">
                 Save
             </button>
         </div>
         <div class="text-red-500">{{ error }}</div>
-    </div>
+    </Form>
 </template>
 
 <script>
@@ -190,11 +192,25 @@ import { imgUrlFor } from "@/utils/utils";
 import axios from 'axios';
 import TomSelect from 'tom-select'
 const serverUrl = import.meta.env.VITE_SERVER_URL;
+
+import * as yup from 'yup';
+import { Form, Field, ErrorMessage } from 'vee-validate';
 export default {
     props: {
         photobook: { type: Object }
     },
     data() {
+        const formSchema = yup.object().shape({
+            name: yup
+                .string()
+                .required('Name can not be empty.')
+                .min(2, 'Name must have at least 2 characters.')
+                .max(50, 'Name can not longer than 50 characters.'),
+            description: yup
+                .string()
+                .required('Description can not be empty.')
+                .min(8, 'Description must have at least 8 characters.')
+        });
         return {
             newPhotobook: {
                 ...this.photobook, owner: useAuthStore().user.id, album: -1
@@ -202,7 +218,8 @@ export default {
             error: "",
             serverUrl,
             imgUrlFor,
-            albums: []
+            albums: [],
+            formSchema
         }
     },
     async mounted() {
@@ -242,16 +259,17 @@ export default {
                 console.log("Wrong file type");
             }
         },
-        createPhotobook() {
-            this.$emit('submit:photobook', { ...this.newPhotobook })
-            this.cover = null;
-            this.name = null;
-            this.pages = [];
+        submitForm() {
+            // this.$emit('submit:photobook', { ...this.newPhotobook })
+            // this.cover = null;
+            // this.name = null;
+            // this.pages = [];
         },
         addPage() {
             this.newPhotobook.pages = [...(this.newPhotobook.pages ?? []), { image: null, content: null, collapse: false }]
         }
-    }
+    },
+    components: { Form, Field, ErrorMessage }
 }
 </script>
 
