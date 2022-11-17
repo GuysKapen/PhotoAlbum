@@ -1,4 +1,5 @@
 const knex = require('../database/knex');
+const bcrypt = require("bcrypt");
 class ContactService {
     constructor() {
         this.users = knex('users');
@@ -13,6 +14,8 @@ class ContactService {
                 delete user[key]
             }
         })
+
+        user["password"] = bcrypt.hashSync(user["password"], 10)
 
         return user;
     }

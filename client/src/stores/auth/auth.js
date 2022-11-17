@@ -14,7 +14,6 @@ export const useAuthStore = defineStore({
         },
 
         async login({ email, password }) {
-            console.log(email, password);
             try {
                 // Sign in here
                 const res = await axios.post("/api/authenticate", { email: email, password: password })

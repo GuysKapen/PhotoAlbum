@@ -5,6 +5,7 @@ const { validationResult } = require("express-validator");
 
 const privateKey = process.env.PRIVATE_KEY;
 const tokenExpireInSeconds = process.env.TOKEN_EXPIRE;
+const bcrypt = require("bcrypt");
 
 const ApiError = require("../api_error")
 
@@ -19,20 +20,28 @@ exports.authenticate = async function (req, res, next) {
       return next(new ApiError(404, 'User not found'));
     }
 
-    const userTokenData = { id: user.id, email: user.email }
+    bcrypt.compare(req.body.password, user.password, function (err, isMatch) {
+      if (isMatch) {
+        const userTokenData = { id: user.id, email: user.email }
 
-    const token = jwt.sign(userTokenData, privateKey, {
-      expiresIn: '24h'
+        const token = jwt.sign(userTokenData, privateKey, {
+          expiresIn: '24h'
+        });
+
+        const { id, email } = user
+
+        return res.json({
+          success: true,
+          message: 'Token created.',
+          token: token,
+          user: { id, email }
+        });
+
+      } else {
+        return next(new ApiError(401, 'Unauthorized'));
+      }
     });
 
-    const {id, email} = user
-
-    return res.json({
-      success: true,
-      message: 'Token created.',
-      token: token,
-      user: { id, email }
-    });
   } catch (error) {
     console.log(error);
     return next(new ApiError(500, 'Error occurred when read contact'))
@@ -82,7 +91,7 @@ exports.registerController = async (req, res) => {
         });
       }
 
-      user = userService.create(req.body)
+      user = await userService.create(req.body)
 
       return res.send(user)
     } catch (err) {
