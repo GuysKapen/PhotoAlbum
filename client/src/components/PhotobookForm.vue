@@ -1,5 +1,5 @@
 <template>
-    <Form :validation-schema="formSchema" @submit="submitForm">
+    <Form :validation-schema="formSchema" :submit="submitForm">
         <div class="flex flex-col m-auto mt-8">
             <div>
                 <label class="block text-sm font-medium text-gray-700"> Name </label>
@@ -171,7 +171,7 @@
                 </div>
             </div>
             <div class="text-indigo-600 flex items-center mt-2">
-                <button class="text-sm flex items-center leading-3" @click="addPage">
+                <button type="button" class="text-sm flex items-center leading-3" @click="addPage">
                     <span class="material-symbols-outlined text-sm mr-2 mt-[0.1rem]">
                         add
                     </span>
@@ -260,10 +260,10 @@ export default {
             }
         },
         submitForm() {
-            // this.$emit('submit:photobook', { ...this.newPhotobook })
-            // this.cover = null;
-            // this.name = null;
-            // this.pages = [];
+            this.$emit('submit:photobook', { ...this.newPhotobook })
+            this.cover = null;
+            this.name = null;
+            this.pages = [];
         },
         addPage() {
             this.newPhotobook.pages = [...(this.newPhotobook.pages ?? []), { image: null, content: null, collapse: false }]

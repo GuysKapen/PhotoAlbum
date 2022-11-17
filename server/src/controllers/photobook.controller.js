@@ -129,8 +129,7 @@ exports.update = async (req, res, next) => {
             await photopageService.deleteOfBook(req.params.id, req.body["pages"].map(el => el.id))
         }
 
-
-        if ("album" in req.body && req.body["album"]) {
+        if ("album" in req.body && req.body["album"] && req.body["album"] > 0) {
             const albumPhotobookService = new AlbumPhotobookService()
 
             await albumPhotobookService.deleteOfBook(photobookId)

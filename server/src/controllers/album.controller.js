@@ -4,7 +4,6 @@ const ApiError = require('../api_error')
 const fs = require('fs')
 
 exports.create = async (req, res, next) => {
-    console.log("req", req.body);
     if (!req.body.name) {
         return next(new ApiError(400, 'Name can not be empty'))
     }

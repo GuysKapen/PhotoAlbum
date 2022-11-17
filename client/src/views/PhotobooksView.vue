@@ -1,6 +1,6 @@
 <template>
   <div class="px-12 flex flex-row-reverse">
-    <div class="w-3/12 my-8">
+    <div class="w-3/12 my-8 flex-shrink-0">
       <h3 class="text-2xl text-gray-700 font-bold mt-4">Add photobook</h3>
       <PhotobookForm @submit:photobook="createPhotobook" />
     </div>
@@ -39,6 +39,7 @@
                   text-white
                   bg-indigo-600
                   text-sm
+                  text-center
                   px-6
                   py-2
                 ">
