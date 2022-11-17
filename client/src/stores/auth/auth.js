@@ -20,7 +20,7 @@ export const useAuthStore = defineStore({
                 this.user = res.data["user"]
                 this.token = res.data["token"]
 
-                return Promise.resolve("Success")
+                return Promise.resolve(res.data["user"])
             } catch (error) {
                 console.log(error);
                 return Promise.reject(error)

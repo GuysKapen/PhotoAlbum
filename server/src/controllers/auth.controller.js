@@ -28,13 +28,13 @@ exports.authenticate = async function (req, res, next) {
           expiresIn: '24h'
         });
 
-        const { id, email } = user
+        const { id, name, email } = user
 
         return res.json({
           success: true,
           message: 'Token created.',
           token: token,
-          user: { id, email }
+          user: { id, name, email }
         });
 
       } else {
