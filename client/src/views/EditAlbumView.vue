@@ -1,7 +1,7 @@
 <template>
   <div class="px-12 flex flex-row-reverse">
     <div class="w-5/12 my-8 mx-auto" v-if="album">
-      <h3 class="text-2xl text-gray-700 font-bold mt-4">Edit photobook</h3>
+      <h3 class="text-2xl text-gray-700 font-bold mt-4">Edit album</h3>
       <AlbumForm @submit:album="update" :album="album" />
     </div>
   </div>
