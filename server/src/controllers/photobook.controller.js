@@ -28,7 +28,7 @@ exports.create = async (req, res, next) => {
                 const albumPhotobookService = new AlbumPhotobookService()
                 await albumPhotobookService.create({ album_id: req.body["album"], photobook_id: photobook.id })
             } catch (error) {
-                
+
             }
         }
 
@@ -250,3 +250,31 @@ exports.toggleFavorite = async (req, res, next) => {
     }
     return res.send({ message: 'Photobook was updated successfully' })
 }
+
+exports.download = async function (req, res, next) {
+    try {
+        const photobookService = new PhotobookService();
+        const photobook = await photobookService.findById(req.params.id);
+
+        if (!photobook || !photobook.cover) {
+            return next(new ApiError(404, 'Contact not found'));
+        }
+
+        const photopageService = new PhotopageService()
+
+        const photopages = await photopageService.findOfBook(req.params.id)
+
+        const paths = [{ path: photobook.cover, name: photobook.cover.replace(/^.*[\\\/]/, '') }]
+        for (const element of photopages) {
+            if (element.image) {
+                paths.push({ path: element.image, name: element.image.replace(/^.*[\\\/]/, '') })
+            }
+        }
+
+        return res.zip(paths)
+
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(500, 'Error occurred when read contact'))
+    }
+};

@@ -9,14 +9,27 @@ const serverUrl = import.meta.env.VITE_SERVER_URL
         <img :src="imgUrlFor(serverUrl, photobook.cover)" alt="book" class="rounded-md w-full h-[24rem] object-cover" />
       </div>
       <div class="ml-8 -mt-2">
-        <h2 class="text-5xl font-bold text-gray-800">
-          {{photobook.name}}
-        </h2>
+        <div class="flex items-center justify-between">
+          <h2 class="text-5xl font-bold text-gray-800">
+            {{ photobook.name }}
+          </h2>
+          <button @click="download" class="
+                  px-8
+                  py-3
+                  bg-blue-600
+                  hover:bg-blue-800
+                  rounded-full
+                  text-xs text-white
+                  font-black
+                ">
+            Download
+          </button>
+        </div>
         <p class="text-sm text-gray-500 mt-2">
-          {{photobook.description}}
+          {{ photobook.description }}
         </p>
         <h3 class="text-xl mt-3 font-bold text-gray-800">
-          {{photobook.owner}}
+          {{ photobook.owner }}
         </h3>
       </div>
     </div>
@@ -27,7 +40,7 @@ const serverUrl = import.meta.env.VITE_SERVER_URL
             <img :src="imgUrlFor(serverUrl, page.image)" alt="book" class="rounded-md w-full h-[24rem] object-cover" />
           </div>
           <div class="absolute w-1/2 bottom-12 left-12">
-            <p class="text-white text-left">{{page.content}}</p>
+            <p class="text-white text-left">{{ page.content }}</p>
           </div>
         </slide>
 
@@ -64,11 +77,8 @@ export default {
     pages: []
   }),
   methods: {
-    async onFileChange(file) {
-
-    },
-    async getPhotos() {
-
+    download() {
+      window.open(`/api/public/photobooks/${this.photobook.id}/download`)
     },
   },
   computed: {

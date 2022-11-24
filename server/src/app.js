@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
 
 const app = express()
+var zip = require('express-zip');
 
 const photobookController = require('./controllers/photobook.controller')
 const albumController = require('./controllers/album.controller')
@@ -45,6 +46,9 @@ app.route('/api/public/photobooks')
 
 app.route('/api/public/albums')
     .get(albumController.list)
+
+app.route('/api/public/photobooks/:id/download')
+    .get(photobookController.download)
 
 // Photobooks routes
 const photobookRoutes = express.Router();
