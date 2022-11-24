@@ -65,7 +65,6 @@ const router = createRouter({
     {
       path: "/photobooks/:id",
       name: "photobook-detail",
-      beforeEnter: [isAuth],
       component: PhotobookDetailPageVue,
     },
     {

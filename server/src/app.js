@@ -50,6 +50,9 @@ app.route('/api/public/albums')
 app.route('/api/public/photobooks/:id/download')
     .get(photobookController.download)
 
+app.route('/api/public/photobooks/:id')
+    .get(photobookController.read)
+
 // Photobooks routes
 const photobookRoutes = express.Router();
 

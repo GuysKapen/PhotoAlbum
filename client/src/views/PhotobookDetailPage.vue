@@ -67,8 +67,8 @@ export default {
     Navigation,
   },
   async mounted() {
-    const data = await photobookService.get(this.id)
-    this.photobook = data
+    const res = await axios.get(`/api/public/photobooks/${this.id}`)
+    this.photobook = res.data
 
     this.pages = await photobookService.getPages(this.id)
   },
