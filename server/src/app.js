@@ -23,7 +23,6 @@ app.use(fileUpload({
 }))
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(cors())
 app.use('/uploads', express.static('uploads'))
@@ -32,6 +31,7 @@ app.get('/', (req, res) => {
     res.json({ 'message': 'Welcome' })
 });
 
+// Public routes
 app.route('/api/authenticate')
     .post(authController.authenticate)
 
@@ -50,7 +50,7 @@ app.route('/api/public/photobooks/:id/download')
 app.route('/api/public/photobooks/:id')
     .get(photobookController.read)
 
-// Photobooks routes
+// Upload route
 const uploadRoutes = express.Router();
 
 uploadRoutes.use(authMiddleware.verifyToken);
