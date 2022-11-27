@@ -96,7 +96,7 @@ export default {
         const form = new FormData();
         form.append("image", album.cover);
         let res = await axios.post(
-          `/api/users/${this.user.id}/uploads/image`,
+          `/api/uploads/image`,
           form,
           {
             headers: {

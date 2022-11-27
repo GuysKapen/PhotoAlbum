@@ -14,7 +14,7 @@ exports.uploadImage = function (req, res) {
             let avatar = req.files.image;
             let fileExt = avatar.name.split('.').pop();
             const name = `${uuidv4()}.${fileExt}`;
-            const parent = `.${sep}uploads${sep}media${sep}${req.params.userId}${sep}images`
+            const parent = `.${sep}uploads${sep}media${sep}${req.userId}${sep}images`
             const oldPath = `${parent}${sep}${avatar.name}`
             const newPath = `${parent}${sep}${name}`
 

@@ -38,9 +38,6 @@ app.route('/api/authenticate')
 app.route('/api/register')
     .post(authController.registerController)
 
-app.route('/api/users/:userId/uploads/image')
-    .post(uploadController.uploadImage)
-
 app.route('/api/public/photobooks')
     .get(photobookController.list)
 
@@ -52,6 +49,16 @@ app.route('/api/public/photobooks/:id/download')
 
 app.route('/api/public/photobooks/:id')
     .get(photobookController.read)
+
+// Photobooks routes
+const uploadRoutes = express.Router();
+
+uploadRoutes.use(authMiddleware.verifyToken);
+
+uploadRoutes.route('/image')
+    .post(uploadController.uploadImage)
+
+app.use("/api/uploads", uploadRoutes)
 
 // Photobooks routes
 const photobookRoutes = express.Router();

@@ -31,7 +31,7 @@ export default {
       if (photobook.cover != null) {
         const form = new FormData();
         form.append("image", photobook.cover);
-        let res = await axios.post(`/api/users/${this.user.id}/uploads/image`, form, {
+        let res = await axios.post(`/api/uploads/image`, form, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${this.token}`,
