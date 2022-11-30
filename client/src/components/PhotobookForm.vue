@@ -188,6 +188,7 @@
 
 <script>
 import { useAuthStore } from "@/stores/auth/auth";
+import { useAlbumStore } from "@/stores/albums";
 import { imgUrlFor } from "@/utils/utils";
 import axios from 'axios';
 import TomSelect from 'tom-select'
@@ -223,7 +224,8 @@ export default {
         }
     },
     async mounted() {
-        this.albums = (await axios.get("/api/public/albums")).data
+        const albumStore = useAlbumStore();
+        this.albums = await albumStore.getAlbums();
         setTimeout(function () {
             new TomSelect('#select-album', {});
         }, 0)
