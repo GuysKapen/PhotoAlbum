@@ -261,9 +261,11 @@ export default {
         },
         submitForm() {
             this.$emit('submit:photobook', { ...this.newPhotobook })
-            this.cover = null;
-            this.name = null;
-            this.pages = [];
+            this.newPhotobook.cover = null;
+            this.newPhotobook.name = null;
+            this.newPhotobook.description = null;
+            this.newPhotobook.album = null;
+            this.newPhotobook.pages = [];
         },
         addPage() {
             this.newPhotobook.pages = [...(this.newPhotobook.pages ?? []), { image: null, content: null, collapse: false }]
