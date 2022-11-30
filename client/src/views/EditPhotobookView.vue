@@ -45,7 +45,7 @@ export default {
         if (page.image != null) {
           const form = new FormData();
           form.append("image", page.image);
-          let res = await axios.post(`/api/users/${this.user.id}/uploads/image`, form, {
+          let res = await axios.post(`/api/uploads/image`, form, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${this.token}`,
