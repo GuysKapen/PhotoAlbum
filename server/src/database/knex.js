@@ -1,5 +1,5 @@
 module.exports = require('knex')({
-    client: 'mysql',
+    client: process.env.DB_TYPE,
     connection: {
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
