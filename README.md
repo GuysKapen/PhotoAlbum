@@ -25,7 +25,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <!-- <a href="https://github.com/GuysKapen/ELearningLaravel">
+  <!-- <a href="https://github.com/GuysKapen/PhotoAlbum">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a> -->
 
@@ -34,14 +34,14 @@
   <p align="center">
     An PhotoAlbum Website
     <br />
-    <a href="https://github.com/GuysKapen/ELearningLaravel"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/GuysKapen/PhotoAlbum"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/GuysKapen/ELearningLaravel">View Demo</a>
+    <a href="https://guys-photoalbum.netlify.app/">View Demo</a>
     ·
-    <a href="https://github.com/GuysKapen/ELearningLaravel/issues">Report Bug</a>
+    <a href="https://github.com/GuysKapen/PhotoAlbum/issues">Report Bug</a>
     ·
-    <a href="https://github.com/GuysKapen/ELearningLaravel/issues">Request Feature</a>
+    <a href="https://github.com/GuysKapen/PhotoAlbum/issues">Request Feature</a>
   </p>
 </div>
 
@@ -193,7 +193,7 @@ npm install
   - [x] Add, delete, update album
   - [x] Add to favorite
 
-See the [open issues](https://github.com/GuysKapen/ELearningLaravel/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/GuysKapen/PhotoAlbum/issues) for a full list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 
@@ -214,7 +214,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## License
 
-Distributed under the Apache License, Version 2.0. See `LICENSE.txt` for more information.
+Distributed under the Apache License, Version 2.0. See [LICENSE.txt][license-url] for more information.
 
 <!-- CONTACT -->
 
@@ -239,16 +239,16 @@ Project Link: [https://github.com/GuysKapen/PhotoAlbum](https://github.com/GuysK
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/GuysKapen/ELearningLaravel.svg?style=for-the-badge
-[contributors-url]: https://github.com/GuysKapen/ELearningLaravel/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/GuysKapen/ELearningLaravel.svg?style=for-the-badge
-[forks-url]: https://github.com/GuysKapen/ELearningLaravel/network/members
-[stars-shield]: https://img.shields.io/github/stars/GuysKapen/ELearningLaravel.svg?style=for-the-badge
-[stars-url]: https://github.com/GuysKapen/ELearningLaravel/stargazers
-[issues-shield]: https://img.shields.io/github/issues/GuysKapen/ELearningLaravel.svg?style=for-the-badge
-[issues-url]: https://github.com/GuysKapen/ELearningLaravel/issues
-[license-shield]: https://img.shields.io/github/license/GuysKapen/ELearningLaravel.svg?style=for-the-badge
-[license-url]: https://github.com/GuysKapen/ELearningLaravel/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/GuysKapen/PhotoAlbum.svg?style=for-the-badge
+[contributors-url]: https://github.com/GuysKapen/PhotoAlbum/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/GuysKapen/PhotoAlbum.svg?style=for-the-badge
+[forks-url]: https://github.com/GuysKapen/PhotoAlbum/network/members
+[stars-shield]: https://img.shields.io/github/stars/GuysKapen/PhotoAlbum.svg?style=for-the-badge
+[stars-url]: https://github.com/GuysKapen/PhotoAlbum/stargazers
+[issues-shield]: https://img.shields.io/github/issues/GuysKapen/PhotoAlbum.svg?style=for-the-badge
+[issues-url]: https://github.com/GuysKapen/PhotoAlbum/issues
+[license-shield]: https://img.shields.io/github/license/GuysKapen/PhotoAlbum.svg?style=for-the-badge
+[license-url]: https://github.com/GuysKapen/PhotoAlbum/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png
