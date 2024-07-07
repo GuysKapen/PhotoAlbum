@@ -19,7 +19,7 @@ class PhotobookService {
 
     async create(payload) {
         const photobook = this.#getPhotobook(payload);
-        const [id] = await this.photobooks.insert(photobook);
+        const [{id}] = await this.photobooks.insert(photobook).returning('id');
         return { id, ...photobook };
     }
 

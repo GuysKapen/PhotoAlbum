@@ -115,7 +115,6 @@ export default {
         submitForm() {
             this.$emit('submit:album', { ...this.newAlbum })
             this.newAlbum.cover = null;
-            this.newAlbum.name = null;
         }
     },
     components: { Form, Field, ErrorMessage }

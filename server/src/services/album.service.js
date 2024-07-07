@@ -19,7 +19,7 @@ class AlbumService {
 
     async create(payload) {
         const album = this.#getAlbum(payload);
-        const [id] = await this.albums.insert(album);
+        const [{id}] = await this.albums.insert(album).returning("id");
         return { id, ...album };
     }
 

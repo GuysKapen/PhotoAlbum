@@ -22,7 +22,7 @@ class ContactService {
 
     async create(payload) {
         const user = this.#getUser(payload);
-        const [id] = await this.users.insert(user);
+        const [{id}] = await this.users.insert(user).returning("id");
         return { id, ...user };
     }
 

@@ -129,7 +129,7 @@ npm install
 3. Create database in photoalbum
 
    ```sh
-   database create photoalbum;
+   create database photoalbum;
    ```
 
 4. Modify environment variables (db_type, host, port, username, password, ...) in .env file
@@ -141,12 +141,31 @@ npm install
    DB_USER=username
    DB_PASSWORD=password
    DB_NAME=db_name
+   PORT=3000
    ```
 
-5. Import data into postgres
-
+   Ex.
    ```sh
-   PGPASSWORD=<password> psql -h <host> -U <user> <db_name> -f /path/to/postgresql.sql
+   DB_TYPE=postgresql
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USER=guys
+   DB_PASSWORD=password
+   DB_NAME=photoalbum
+   PORT=3000
+  ```
+
+5. Import data into postgres (with postgres user)
+
+  Update postgres default password
+   ```sh
+   psql
+   ALTER USER postgres WITH PASSWORD 'new_password';
+   ```
+  
+  Import data from sql file
+  ```sh
+   PGPASSWORD=<postgres_pw> psql -h <host> -U postgres <db_name> -f /path/to/postgresql.sql
    ```
 
 6. Start client, server and browse in browsers

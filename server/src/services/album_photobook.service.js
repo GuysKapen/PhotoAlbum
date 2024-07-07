@@ -19,7 +19,7 @@ class AlbumService {
 
     async create(payload) {
         const album = this.#getPhotobook(payload);
-        const [id] = await this.albumPhotobook.insert(album);
+        const [{id}] = await this.albumPhotobook.insert(album).returning("id");
         return { id, ...album };
     }
 

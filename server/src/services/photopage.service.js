@@ -19,7 +19,8 @@ class PhotopageService {
 
     async create(payload) {
         const photobook = this.#getPhotopage(payload);
-        const [id] = await this.photopages.insert(photobook);
+        console.log("ksdjkasdf", photobook);
+        const [{id}] = await this.photopages.insert(photobook).returning('id');
         return { id, ...photobook };
     }
 
